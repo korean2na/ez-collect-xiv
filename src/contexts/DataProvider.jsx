@@ -1,5 +1,5 @@
 import { useState, useEffect, createContext, useContext} from "react";
-import { getFirestore, collection, doc, getDoc, getDocs, setDoc, addDoc, deleteDoc, query, orderBy} from '@firebase/firestore'
+import { getFirestore, collection, doc, getDoc, getDocs, setDoc, addDoc, deleteDoc, query, orderBy, updateDoc } from '@firebase/firestore'
 import { AuthContext } from "./AuthProvider";
 
 export const DataContext = createContext()
@@ -50,47 +50,62 @@ export const DataProvider = function (props) {
             console.log(err)
         }
     }
-
-    useEffect(() => {
-        async function getChars() {
-            const q = query(collection(db, 'users', `${user.uid}`, 'characters'), orderBy('selected', 'desc'))
-            const querySnap = await getDocs(q)
-            const charsDocs = []
     
-            querySnap.forEach((doc) => {
-                // const userData = await getDoc(doc.ref.parent.parent)
-                // const username = userData.data().username
+    const getChars = async function() {
+        const q = query(collection(db, 'users', `${user.uid}`, 'characters'), orderBy('selected', 'desc'))
+        const querySnap = await getDocs(q)
+        const charsDocs = []
 
-                if (doc.data().selected) {
-                    const charDoc = {
-                        id: doc.id,
-                        ...doc.data()
-                    }
-                    setChar(charDoc)
-                }
+        querySnap.forEach((doc) => {
+            // const userData = await getDoc(doc.ref.parent.parent)
+            // const username = userData.data().username
 
-                charsDocs.push({
+            if (doc.data().selected) {
+                const charDoc = {
                     id: doc.id,
                     ...doc.data()
-                })
-    
-                setChars(charsDocs)
-            })
-        }
+                }
+                setChar(charDoc)
+            }
 
+            charsDocs.push({
+                id: doc.id,
+                ...doc.data()
+            })
+
+            setChars(charsDocs)
+        })
+    }
+
+    useEffect(() => {
         getChars()
         
     }, [user])
 
-    useEffect(() => {
-        async function loadCharInfo() {
-            const charInfo = await getCharInfo(char.lodestoneId)
-            console.log(charInfo)
-            setCharInfo(charInfo)
-        }
+    const loadCharInfo = async function() {
+        const charInfo = await getCharInfo(char.lodestoneId)
+        console.log(charInfo)
+        setCharInfo(charInfo)
+    }
 
+    useEffect(() => {
         loadCharInfo()
+
     }, [char])
+
+    async function selectChar(id) {
+        const charRef = doc(db, 'users', `${user.uid}`, 'characters', `${char.id}`)
+
+        await updateDoc(charRef, {
+            selected: false
+        })
+
+        const newCharRef = doc(db, 'users', `${user.uid}`, 'characters', `${id}`)
+
+        await updateDoc(newCharRef, {
+            selected: true
+        })
+    }
 
     async function addChar(name, server) {
         // const newCity = {
@@ -132,6 +147,7 @@ export const DataProvider = function (props) {
         charInfo,
         toTitleCase,
         getCharInfo,
+        selectChar,
         addChar,
         removeChar
     }
