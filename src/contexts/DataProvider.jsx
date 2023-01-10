@@ -26,9 +26,9 @@ export const DataProvider = function (props) {
 
     const getCharInfo = async function(LID) {
         try{
-            const charResponse = await fetch(`://ffxivcollect.com/api/characters/${LID}?latest=true&ids=true`)
+            const charResponse = await fetch(`https://ffxivcollect.com/api/characters/${LID}?latest=true&ids=true`)
             const charData = await charResponse.json()
-    
+
             return {
                 id: charData.id,
                 name: charData.name,
@@ -53,19 +53,20 @@ export const DataProvider = function (props) {
 
     useEffect(() => {
         async function getChars() {
-            const q = query(collection(db, 'users', `${user.uid} `, 'characters'), orderBy('selected', 'desc'))
+            const q = query(collection(db, 'users', `${user.uid}`, 'characters'), orderBy('selected', 'desc'))
             const querySnap = await getDocs(q)
             const charsDocs = []
     
             querySnap.forEach((doc) => {
                 // const userData = await getDoc(doc.ref.parent.parent)
                 // const username = userData.data().username
-                
-                if (doc.selected) {
-                    setChar({
+
+                if (doc.data().selected) {
+                    const charDoc = {
                         id: doc.id,
                         ...doc.data()
-                    })
+                    }
+                    setChar(charDoc)
                 }
 
                 charsDocs.push({
@@ -77,27 +78,30 @@ export const DataProvider = function (props) {
             })
         }
 
-        async function getCharInfo() {
-            const charInfo = await getCharInfo(char.lodestoneId)
+        getChars()
+        
+    }, [user])
 
+    useEffect(() => {
+        async function loadCharInfo() {
+            const charInfo = await getCharInfo(char.lodestoneId)
+            console.log(charInfo)
             setCharInfo(charInfo)
         }
 
-        getChars()
-        getCharInfo()
-        
-    }, [user])
+        loadCharInfo()
+    }, [char])
 
     async function addChar(name, server) {
         // const newCity = {
         //     cityName: cityName
         // }
 
-        // const userDoc = await setDoc(doc(db, 'users', `${user.uid} `), {
+        // const userDoc = await setDoc(doc(db, 'users', `${user.uid}`), {
         //     username: user.username
         // })
 
-        // const cityDoc = await addDoc(collection(db, 'users', `${user.uid} `, 'cities'), newCity)
+        // const cityDoc = await addDoc(collection(db, 'users', `${user.uid}`, 'cities'), newCity)
 
         // newCity.id = cityDoc.id
 
@@ -105,9 +109,9 @@ export const DataProvider = function (props) {
     }
     
     async function removeChar(id) {
-        // await deleteDoc(doc(db, 'users', `${user.uid} `, 'cities', `${id}`))
+        // await deleteDoc(doc(db, 'users', `${user.uid}`, 'cities', `${id}`))
 
-        // const q = query(collection(db, 'users', `${user.uid} `, 'cities'), orderBy('cityName', 'asc'))
+        // const q = query(collection(db, 'users', `${user.uid}`, 'cities'), orderBy('cityName', 'asc'))
         // const querySnapshot = await getDocs(q)
         // const cityDocs = []
 
