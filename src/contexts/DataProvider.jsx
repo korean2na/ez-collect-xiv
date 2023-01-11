@@ -9,7 +9,6 @@ export const DataProvider = function (props) {
     const { user } = useContext(AuthContext)
     const [chars, setChars] = useState([])
     const [char, setChar] = useState({})
-    const [charAvatars, setCharAvatars] = useState({})
     const [charInfo, setCharInfo] = useState({})
 
     const searchErrorTemplate = `
@@ -70,48 +69,39 @@ export const DataProvider = function (props) {
         querySnap.forEach(async (doc) => {
             // const userData = await getDoc(doc.ref.parent.parent)
             // const username = userData.data().username
+     
             try{
                 const avatar = await getCharAvatar(doc.data().lodestoneId)
 
                 if (doc.data().selected) {
                     const charDoc = {
                         id: doc.id,
+                        avatarUrl: avatar,
                         ...doc.data()
                     }
                     setChar(charDoc)
+                } else {
+                    charsDocs.push({
+                        id: doc.id,
+                        avatarUrl: avatar,
+                        ...doc.data()
+                    })
+                    setChars(charsDocs)
                 }
-    
-                charsDocs.push({
-                    id: doc.id,
-                    avatarUrl: avatar,
-                    ...doc.data()
-                })
-    
-                setChars(charsDocs)
             } catch (err) {
                 console.log('ERROR! ERROR! ERROR!')
                 console.log(err)
             }
         })
+
+        console.log('Characters loaded')
     }
-
-    useEffect(() => {
-        getChars()
-        
-    }, [user])
-
-
 
     const loadCharInfo = async function() {
         const charInfo = await getCharInfo(char.lodestoneId)
-        console.log(charInfo)
+        console.log(`Info loaded for ${char.charName}`)
         setCharInfo(charInfo)
     }
-
-    useEffect(() => {
-        loadCharInfo()
-
-    }, [char])
 
     async function selectChar(id) {
         const charRef = doc(db, 'users', `${user.uid}`, 'characters', `${char.id}`)
@@ -124,6 +114,14 @@ export const DataProvider = function (props) {
 
         await updateDoc(newCharRef, {
             selected: true
+        })
+    }
+
+    async function removeChar(id) {
+        const charRef = doc(db, 'users', `${user.uid}`, 'characters', `${id}`)
+
+        await updateDoc(charRef, {
+            hidden: true
         })
     }
 
@@ -143,23 +141,19 @@ export const DataProvider = function (props) {
         // setCities([newCity, ...cities])
     }
     
-    async function removeChar(id) {
-        // await deleteDoc(doc(db, 'users', `${user.uid}`, 'cities', `${id}`))
+    
 
-        // const q = query(collection(db, 'users', `${user.uid}`, 'cities'), orderBy('cityName', 'asc'))
-        // const querySnapshot = await getDocs(q)
-        // const cityDocs = []
 
-        // querySnapshot.forEach((doc) => {
-        //     cityDocs.push({
-        //         id: doc.id,
-        //         uid: user.uid,
-        //         ...doc.data()
-        //     })
+    useEffect(() => {
+        getChars()
+        
+    }, [user])
 
-        //     setCities(cityDocs)
-        // })
-    }
+    useEffect(() => {
+        loadCharInfo()
+
+    }, [char])
+
 
     const value = {
         chars,
@@ -169,8 +163,8 @@ export const DataProvider = function (props) {
         getChars,
         loadCharInfo,
         selectChar,
-        addChar,
-        removeChar
+        removeChar,
+        addChar
     }
 
     return (

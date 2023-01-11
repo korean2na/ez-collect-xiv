@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { AuthContext } from './contexts/AuthProvider';
 import Home from './views/Home';
 import LoginView from './views/LoginView';
+import CharSearch from './views/CharSearch';
 
 export default function App() {
   const { user, googleLogin, logout } = useContext(AuthContext)
@@ -15,7 +16,7 @@ export default function App() {
           <div className="container-fluid">
             <ul id="left-nav" className="navbar-nav align-items-center gap-4">
               <li className="nav-item"><Link to="/" className="nav-link active link-light"><strong>Home</strong></Link></li>
-              <li className="nav-item"><Link to="/login" className="nav-link active link-light"><strong>Search</strong></Link></li>
+              <li className="nav-item"><Link to="/search" className="nav-link active link-light"><strong>Search</strong></Link></li>
             </ul>
             <ul id="right-nav" className="navbar-nav align-items-center">
               {
@@ -48,6 +49,7 @@ export default function App() {
             <>
             <LoginView />
             </>} />
+          <Route path="/search" element={<CharSearch />} />
           {/* <Route path="/profile" element={
             (user.loggedIn) ?
             <>

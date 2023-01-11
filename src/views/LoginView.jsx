@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthProvider"
 
-export default function LoginSplash() {
+export default function LoginView() {
     const { login } = useContext(AuthContext)
 
     return (
-        <div className="LoginSplash">
+        <div className="LoginView">
             <div className="row justify-content-center gap-5">
                 <div className="text-center text-light pt-5">
                     <h1><strong>Welcome to Eorzea Collect XIV</strong></h1>

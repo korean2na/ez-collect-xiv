@@ -76,3 +76,18 @@ html, main {
     transition-property: color;
     color: goldenrod;
   }
+
+  #avatar {
+    border: 2px solid gray;
+    border-radius: 50%
+  }
+
+  #portrait-box {
+    width: 250px;
+  }
+
+  #portrait {
+    max-width: 100%;
+    object-fit:contain;
+    border-radius: 10px;
+  }
