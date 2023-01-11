@@ -9,6 +9,7 @@ export const DataProvider = function (props) {
     const { user } = useContext(AuthContext)
     const [chars, setChars] = useState([])
     const [char, setChar] = useState({})
+    const [charAvatars, setCharAvatars] = useState({})
     const [charInfo, setCharInfo] = useState({})
 
     const searchErrorTemplate = `
@@ -43,9 +44,19 @@ export const DataProvider = function (props) {
                 rankings: charData.rankings,
                 relics: charData.relics
             }
+        } catch (err) {
+            console.log('ERROR! ERROR! ERROR!')
+            console.log(err)
         }
+    }
 
-        catch (err) {
+    const getCharAvatar = async function(LID) {
+        try{
+            const charResponse = await fetch(`https://xivapi.com/character/${LID}`)
+            const charData = await charResponse.json()
+
+            return charData.Character.Avatar
+        } catch (err) {
             console.log('ERROR! ERROR! ERROR!')
             console.log(err)
         }
@@ -56,24 +67,31 @@ export const DataProvider = function (props) {
         const querySnap = await getDocs(q)
         const charsDocs = []
 
-        querySnap.forEach((doc) => {
+        querySnap.forEach(async (doc) => {
             // const userData = await getDoc(doc.ref.parent.parent)
             // const username = userData.data().username
+            try{
+                const avatar = await getCharAvatar(doc.data().lodestoneId)
 
-            if (doc.data().selected) {
-                const charDoc = {
-                    id: doc.id,
-                    ...doc.data()
+                if (doc.data().selected) {
+                    const charDoc = {
+                        id: doc.id,
+                        ...doc.data()
+                    }
+                    setChar(charDoc)
                 }
-                setChar(charDoc)
+    
+                charsDocs.push({
+                    id: doc.id,
+                    avatarUrl: avatar,
+                    ...doc.data()
+                })
+    
+                setChars(charsDocs)
+            } catch (err) {
+                console.log('ERROR! ERROR! ERROR!')
+                console.log(err)
             }
-
-            charsDocs.push({
-                id: doc.id,
-                ...doc.data()
-            })
-
-            setChars(charsDocs)
         })
     }
 
@@ -81,6 +99,8 @@ export const DataProvider = function (props) {
         getChars()
         
     }, [user])
+
+
 
     const loadCharInfo = async function() {
         const charInfo = await getCharInfo(char.lodestoneId)
@@ -146,7 +166,8 @@ export const DataProvider = function (props) {
         char,
         charInfo,
         toTitleCase,
-        getCharInfo,
+        getChars,
+        loadCharInfo,
         selectChar,
         addChar,
         removeChar

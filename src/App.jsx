@@ -17,13 +17,13 @@ export default function App() {
               <li className="nav-item"><Link to="/" className="nav-link active link-light"><strong>Home</strong></Link></li>
               <li className="nav-item"><Link to="/login" className="nav-link active link-light"><strong>Search</strong></Link></li>
             </ul>
-            <ul id="right-nav" className="navbar-nav align-items-center gap-3">
+            <ul id="right-nav" className="navbar-nav align-items-center">
               {
                 (user.loggedIn) ?
                 <>
                 <li className="nav-item text-light"><strong>Logged in as:</strong></li>
                 <li className="nav-item text-light"><Link to="/profile" id="current-user" className="nav-link active"><strong>{ user.displayName }</strong></Link></li>
-                <li className="nav-item nav-link active ms-4"><button onClick={logout}  className="btn btn-danger"><strong>Logout</strong></button></li>
+                <li className="nav-item nav-link active mx-3"><button onClick={logout}  className="btn btn-danger"><strong>Logout</strong></button></li>
                 </> :
                 <>
                 <li className="nav-item text-light"><strong>(Currently not logged in.)</strong></li>
@@ -32,8 +32,7 @@ export default function App() {
               }
               <li className="text-white text-end" id="titlehead">
                 <h2><strong>Eorzea Collect XIV</strong></h2>
-                <p>Powered by <a href="https://xivapi.com/" target="_blank"><strong>xivapi</strong></a></p>
-                <p>and <a href="https://ffxivcollect.com/" target="_blank"><strong>FFXIV Collect</strong></a></p>
+                <p>Powered by <a href="https://ffxivcollect.com/" target="_blank"><strong>FFXIV Collect</strong></a> and <a href="https://xivapi.com/" target="_blank"><strong>xivapi</strong></a></p>
               </li>
             </ul>
           </div>
