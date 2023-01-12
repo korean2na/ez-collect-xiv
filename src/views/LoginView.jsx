@@ -5,7 +5,7 @@ export default function LoginView() {
     const { login } = useContext(AuthContext)
 
     return (
-        <div className="LoginView">
+        <div id="LoginView">
             <div className="row justify-content-center gap-5">
                 <div className="text-center text-light pt-5">
                     <h1><strong>Welcome to Eorzea Collect XIV</strong></h1>

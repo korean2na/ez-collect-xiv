@@ -24,6 +24,21 @@ export const DataProvider = function (props) {
         }).join(' ');
     }
 
+    const checkFFXIVC = async function(LID) {
+        try {
+            const checkResponse = await fetch(`https://ffxivcollect.com/api/characters/${LID}`)
+            if (checkResponse.status === 200) {
+                return true
+            } else {
+                return false
+            }
+
+        } catch (err) {
+            console.log('ERROR! ERROR! ERROR!')
+            console.log(err)
+        }
+    }
+
     const getCharInfo = async function(LID) {
         try{
             const charResponse = await fetch(`https://ffxivcollect.com/api/characters/${LID}?latest=true&ids=true`)
@@ -69,9 +84,11 @@ export const DataProvider = function (props) {
         querySnap.forEach(async (doc) => {
             // const userData = await getDoc(doc.ref.parent.parent)
             // const username = userData.data().username
-     
+        
             try{
                 const avatar = await getCharAvatar(doc.data().lodestoneId)
+                const lodestoneId = doc.data().lodestoneId
+                const hidden = doc.data().hidden
 
                 if (doc.data().selected) {
                     const charDoc = {
@@ -88,6 +105,7 @@ export const DataProvider = function (props) {
                     })
                     setChars(charsDocs)
                 }
+
             } catch (err) {
                 console.log('ERROR! ERROR! ERROR!')
                 console.log(err)
@@ -125,6 +143,14 @@ export const DataProvider = function (props) {
         })
     }
 
+    async function unhideChar(id) {
+        const charRef = doc(db, 'users', `${user.uid}`, 'characters', `${id}`)
+
+        await updateDoc(charRef, {
+            hidden: false
+        })
+    }
+
     async function addChar(name, server) {
         // const newCity = {
         //     cityName: cityName
@@ -142,8 +168,6 @@ export const DataProvider = function (props) {
     }
     
     
-
-
     useEffect(() => {
         getChars()
         
@@ -161,9 +185,11 @@ export const DataProvider = function (props) {
         charInfo,
         toTitleCase,
         getChars,
+        checkFFXIVC,
         loadCharInfo,
         selectChar,
         removeChar,
+        unhideChar,
         addChar
     }
 

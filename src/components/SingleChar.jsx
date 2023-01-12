@@ -18,7 +18,7 @@ export default function SingleChar(props) {
     if (!props.singleChar) {
         return (
             <div className="row justify-content-center">
-                <div className="card col-9 text-center gap-3 py-4 mb-5 shadow-lg rounded">
+                <div className="card col-6 text-center gap-3 py-4 mb-5 shadow-lg rounded">
                     <h2><strong>Not Found</strong></h2>
                 </div>
             </div>

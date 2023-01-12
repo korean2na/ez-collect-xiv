@@ -7,7 +7,7 @@ export default function Home() {
     const { chars, getChars, loadCharInfo, addChar, hideChar } = useContext(DataContext)
 
     return (
-        <div className="Home">
+        <div id="Home">
             <div className="row justify-content-center">
                 <h1 className="col-6 text-light ms-3 pb-3"><strong>Your Characters</strong></h1>
             </div>

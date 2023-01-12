@@ -1,20 +1,39 @@
 import { useState, useContext, useEffect } from "react";
 import { DataContext } from "../contexts/DataProvider";
-import SelectedChar from "../components/SelectedChar";
-import SingleChar from "../components/SingleChar";
+import Search from "../components/Search";
+import SingleResult from "../components/SingleResult";
 
 export default function CharSearch() {
     const { chars, getChars, loadCharInfo, addChar, hideChar } = useContext(DataContext)
+    const [searchResults, setSearchResults] = useState([])
+
+    async function searchChar(ev) {
+        ev.preventDefault()
+        const formData = new FormData(ev.target)
+        const serverName = formData.get('serverName')
+        const charName = formData.get('charName')
+        if (charName !== '') {
+            try {
+                const searchResponse = await fetch(`https://xivapi.com/character/search?name=${charName}&server=${serverName}`)
+                const searchData = await searchResponse.json()
+
+                setSearchResults(searchData.Results)
+            } catch (err) {
+                console.log('ERROR! ERROR! ERROR!')
+                console.log(err)
+            }
+        }
+    }
 
     return (
-        <div className="CharSearch">
+        <div id="CharSearch">
             <h1 className="text-light text-center pb-3"><strong>Character Search</strong></h1>
             <div className="row justify-content-center">
                 <div className="card col-6 p-4 shadow-lg rounded">
-                    <form onSubmit="">
-                        <label className="form-label">Home World</label>
-                        <select className="form-select mb-3" aria-label="Default select example">
-                            <option selected className="text-muted" value="">Home World (Data Center)</option>
+                    <form onSubmit={searchChar}>
+                        <label htmlFor="serverName" className="form-label">Home World</label>
+                        <select name="serverName" className="form-select mb-3" aria-label="serverName">
+                            <option value="">All Home Worlds</option>
                             <option value="Adamantoise">Adamantoise (Aether)</option>
                             <option value="Cactuar">Cactuar (Aether)</option>
                             <option value="Faerie">Faerie (Aether)</option>
@@ -98,14 +117,16 @@ export default function CharSearch() {
                             <option value="Zurvan">Zurvan (Materia)</option>
                         </select>
                         <div className="mb-3">
-                            <label className="form-label">Character Name</label>
-                            <input type="text" className="form-control" placeholder=""/>
+                            <label htmlFor="charName" className="form-label">Character Name</label>
+                            <input name="charName" type="text" className="form-control" placeholder="(Character Name cannot be empty)"/>
                         </div>
                         <div className="row justify-content-end">
                             <button type="submit" className="col-3 btn btn-primary fs-4 me-4"><strong>Search</strong></button>
                         </div>
                     </form>
                 </div>
+
+                { searchResults.map(result => <SingleResult key={result['ID']} result={result}/>) }
             </div>
         </div>
     )
