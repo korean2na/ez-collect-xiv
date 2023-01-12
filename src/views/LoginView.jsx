@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthProvider"
 
 export default function LoginView() {
-    const { login } = useContext(AuthContext)
+    const { googleLogin } = useContext(AuthContext)
 
     return (
         <div id="LoginView">
@@ -13,7 +13,7 @@ export default function LoginView() {
                     <h3>Please login using your Google account to continue</h3>
                 </div>
             
-                <button onClick={login} className="col-1 btn btn-warning fs-4 py-3"><strong>Login</strong></button>
+                <button onClick={googleLogin} className="col-1 btn btn-warning fs-4 py-3"><strong>Login</strong></button>
             </div>
         </div>
     )

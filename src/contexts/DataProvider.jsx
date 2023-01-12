@@ -41,7 +41,7 @@ export const DataProvider = function (props) {
 
     const getCharInfo = async function(LID) {
         try{
-            const charResponse = await fetch(`https://ffxivcollect.com/api/characters/${LID}?latest=true&ids=true`)
+            const charResponse = await fetch(`https://ffxivcollect.com/api/characters/${LID}?latest=true&ids=true/`)
             const charData = await charResponse.json()
 
             return {
@@ -182,15 +182,15 @@ export const DataProvider = function (props) {
         getChars()
     }
 
-    useEffect(() => {
-        getChars()
+    // useEffect(() => {
+    //     getChars()
         
-    }, [user])
+    // }, [user])
 
-    useEffect(() => {
-        loadCharInfo()
+    // useEffect(() => {
+    //     loadCharInfo()
 
-    }, [char])
+    // }, [char])
 
 
     const value = {

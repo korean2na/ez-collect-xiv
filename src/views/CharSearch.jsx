@@ -1,15 +1,12 @@
 import { useState, useContext, useEffect } from "react";
+import { AuthContext } from "../contexts/AuthProvider";
 import { DataContext } from "../contexts/DataProvider";
 import SingleResult from "../components/SingleResult";
 
 export default function CharSearch() {
     const { char, chars, getChars, loadCharInfo, addChar, hideChar } = useContext(DataContext)
-    const [searchResults, setSearchResults] = useState([{
-        Avatar: char.avatarUrl,
-        ID: char.lodestoneId,
-        Name: char.charName,
-        Server: char.server
-    }])
+    const { user } = useContext(AuthContext)
+    const [searchResults, setSearchResults] = useState(['init'])
 
     async function searchChar(ev) {
         ev.preventDefault()
@@ -131,6 +128,8 @@ export default function CharSearch() {
                 </div>
 
                 {
+                    (searchResults[0] == 'init') ?
+                    <></> :
                     (searchResults.length == 0) ?
                     <>
                         <div className="row justify-content-center">
