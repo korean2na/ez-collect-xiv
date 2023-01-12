@@ -2,12 +2,17 @@ import { useContext } from "react"
 import { DataContext } from "../contexts/DataProvider"
 
 export default function SingleChar(props) {
-    const { selectChar, getChars, loadCharInfo, removeChar } = useContext(DataContext)
+    const { selectChar, getChars, loadCharInfo, hideChar, removeChar } = useContext(DataContext)
 
     async function handleSelectChar(id) {
         await selectChar(id)
         await getChars()
         await loadCharInfo()
+    }
+
+    async function handleHideChar(id) {
+        await hideChar(id)
+        await getChars()
     }
 
     async function handleRemoveChar(id) {
@@ -43,16 +48,15 @@ export default function SingleChar(props) {
                         </div>
                     </div>
                     <hr className="mx-2"/>
-                    <div className="row">
-                        <div className="col-6">
-                            <div className="row justify-content-start mx-4">
-                                <button onClick={() => handleSelectChar(props.singleChar.id)} className="col-5 btn btn-primary">Select</button>
-                            </div>
+                    <div className="row justify-content-evenly">
+                        <div className="col-4">
+                            <button onClick={() => handleSelectChar(props.singleChar.id)} className="col-11 btn btn-primary">Select</button>
                         </div>
-                        <div className="col-6">
-                            <div className="row justify-content-end mx-4">
-                                <button onClick={() => handleRemoveChar(props.singleChar.id)} className="col-5 btn btn-danger">Remove</button>
-                            </div>
+                        <div className="col-4">
+                            <button onClick={() => handleHideChar(props.singleChar.id)} className="col-11 btn btn-secondary">Hide</button>
+                        </div>             
+                        <div className="col-4">
+                            <button onClick={() => handleRemoveChar(props.singleChar.id)} className="col-11 btn btn-danger">Remove</button>
                         </div>             
                     </div>
                 </div>

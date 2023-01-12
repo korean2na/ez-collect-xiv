@@ -1,8 +1,9 @@
+import { Link } from 'react-router-dom'
 import { useContext } from "react"
 import { DataContext } from "../contexts/DataProvider"
 
 export default function SelectedChar() {
-    const { char, charInfo } = useContext(DataContext)
+    const { char } = useContext(DataContext)
 
     return (
         <div className="row justify-content-center">
@@ -21,11 +22,11 @@ export default function SelectedChar() {
                     </div>
                 </div>
                 <hr className="mx-2"/>
-                {/* <div className="row">
-                    <div id="portrait-box" className='ps-4'>
-                        <img id="portrait" src={ charInfo.portrait } alt='character portrait'/>
+                <div className="row justify-content-center">
+                    <div className="col-10">
+                        <Link to={ '/profile' } className="col-12 btn btn-success">View Profile</Link>
                     </div>
-                </div> */}
+                </div>
             </div>
         </div>
     )

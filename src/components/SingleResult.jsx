@@ -2,7 +2,7 @@ import { useContext } from "react"
 import { DataContext } from "../contexts/DataProvider"
 
 export default function SingleResult(props) {
-    const { char, chars, selectChar, getChars, loadCharInfo, removeChar, unhideChar, addChar } = useContext(DataContext)
+    const { char, chars, selectChar, getChars, loadCharInfo, hideChar, unhideChar, addChar, removeChar } = useContext(DataContext)
 
     const filtered = chars.filter(n => n.lodestoneId == props.result['ID'])
 
@@ -27,8 +27,8 @@ export default function SingleResult(props) {
         await loadCharInfo()
     }
 
-    async function handleRemoveChar(id) {
-        await removeChar(id)
+    async function handleHideChar(id) {
+        await hideChar(id)
         await getChars()
     }
 
@@ -41,6 +41,10 @@ export default function SingleResult(props) {
         await addChar(LID, charName, server)
     }
 
+    async function handleRemoveChar(id) {
+        await removeChar(id)
+        await getChars()
+    }
   
     return (
         <div className="row justify-content-center">
@@ -62,15 +66,28 @@ export default function SingleResult(props) {
                 {
                     (status === 'SELECTED') ?
                         <>
-                            <p>Currently Selected Character</p>
+                            <h5 className="text-muted">Currently Selected Character</h5>
                         </> :
                     (status === 'ADDED') ?
                         <>
-                            <p>Added</p>
+                            <div className="row justify-content-evenly">
+                                <div className="col-4">
+                                    <button onClick={() => handleSelectChar(filtered[0].id)} className="col-11 btn btn-primary">Select</button>
+                                </div>
+                                <div className="col-4">
+                                    <button onClick={() => handleHideChar(filtered[0].id)} className="col-11 btn btn-secondary">Hide</button>
+                                </div>
+                                <div className="col-4">
+                                    <button onClick={() => handleRemoveChar(filtered[0].id)} className="col-11 btn btn-danger">Remove</button>
+                                </div>
+                            </div>
+                        </> :
+                    (status === 'HIDDEN') ?
+                        <>
                             <div className="row">
                                 <div className="col-6">
                                     <div className="row justify-content-start mx-4">
-                                        <button onClick={() => handleSelectChar(filtered[0].id)} className="col-5 btn btn-primary">Select</button>
+                                        <button onClick={() => handleUnhideChar(filtered[0].id)} className="col-5 btn btn-warning">Unhide</button>
                                     </div>
                                 </div>
                                 <div className="col-6">
@@ -80,17 +97,7 @@ export default function SingleResult(props) {
                                 </div>
                             </div>
                         </> :
-                    (status === 'HIDDEN') ?
-                        <>
-                            <p>Added but hidden</p>
-                            <div className="row justify-content-center">
-                                <div className="col-8">
-                                    <button onClick={() => handleUnhideChar(filtered[0].id)} className="col-6 btn btn-success">Add</button>
-                                </div>
-                            </div>
-                        </> :
                     <>
-                        <p>Currently not added</p>
                         <div className="row justify-content-center">
                             <div className="col-8">
                                 <button onClick={() => handleAddChar(props.result['ID'], props.result.Name, props.result.Server)} className="col-6 btn btn-success">Add</button>

@@ -87,8 +87,8 @@ export const DataProvider = function (props) {
         
             try{
                 const avatar = await getCharAvatar(doc.data().lodestoneId)
-                const lodestoneId = doc.data().lodestoneId
-                const hidden = doc.data().hidden
+                // const lodestoneId = doc.data().lodestoneId
+                // const hidden = doc.data().hidden
 
                 if (doc.data().selected) {
                     const charDoc = {
@@ -135,7 +135,7 @@ export const DataProvider = function (props) {
         })
     }
 
-    async function removeChar(id) {
+    async function hideChar(id) {
         const charRef = doc(db, 'users', `${user.uid}`, 'characters', `${id}`)
 
         await updateDoc(charRef, {
@@ -176,7 +176,12 @@ export const DataProvider = function (props) {
         }
     }
     
-    
+    async function removeChar(id) {
+        await deleteDoc(doc(db, 'users', `${user.uid}`, 'characters', `${id}`))
+
+        getChars()
+    }
+
     useEffect(() => {
         getChars()
         
@@ -197,9 +202,10 @@ export const DataProvider = function (props) {
         checkFFXIVC,
         loadCharInfo,
         selectChar,
-        removeChar,
+        hideChar,
         unhideChar,
-        addChar
+        addChar,
+        removeChar
     }
 
     return (

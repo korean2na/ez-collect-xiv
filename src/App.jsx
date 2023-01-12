@@ -5,6 +5,7 @@ import { AuthContext } from './contexts/AuthProvider';
 import Home from './views/Home';
 import LoginView from './views/LoginView';
 import CharSearch from './views/CharSearch';
+import CharProfile from './views/CharProfile';
 
 export default function App() {
   const { user, googleLogin, logout } = useContext(AuthContext)
@@ -23,7 +24,7 @@ export default function App() {
                 (user.loggedIn) ?
                 <>
                 <li className="nav-item text-light"><strong>Logged in as:</strong></li>
-                <li className="nav-item text-light"><Link to="/profile" id="current-user" className="nav-link active"><strong>{ user.displayName }</strong></Link></li>
+                <li className="nav-item text-light"><Link to="" id="current-user" className="nav-link active"><strong>{ user.email }</strong></Link></li>
                 <li className="nav-item nav-link active mx-3"><button onClick={logout}  className="btn btn-danger"><strong>Logout</strong></button></li>
                 </> :
                 <>
@@ -50,6 +51,7 @@ export default function App() {
             <LoginView />
             </>} />
           <Route path="/search" element={<CharSearch />} />
+          <Route path="/profile" element={<CharProfile />} />
           {/* <Route path="/profile" element={
             (user.loggedIn) ?
             <>
