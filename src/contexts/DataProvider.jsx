@@ -26,7 +26,7 @@ export const DataProvider = function (props) {
 
     const checkFFXIVC = async function(LID) {
         try {
-            const checkResponse = await fetch(`https://ffxivcollect.com/api/characters/${LID}`)
+            const checkResponse = await fetch(`https://ffxivcollect.com/api/characters/${LID}/`)
             if (checkResponse.status === 200) {
                 return true
             } else {
@@ -151,20 +151,29 @@ export const DataProvider = function (props) {
         })
     }
 
-    async function addChar(name, server) {
-        // const newCity = {
-        //     cityName: cityName
-        // }
+    async function addChar(LID, charName, server) {
+        if (await checkFFXIVC(LID) == true) {
+            const newChar = {
+                charName: charName,
+                hidden: false,
+                lodestoneId: LID,
+                selected: false,
+                server: server
+            }
 
-        // const userDoc = await setDoc(doc(db, 'users', `${user.uid}`), {
-        //     username: user.username
-        // })
-
-        // const cityDoc = await addDoc(collection(db, 'users', `${user.uid}`, 'cities'), newCity)
-
-        // newCity.id = cityDoc.id
-
-        // setCities([newCity, ...cities])
+            const userDoc = await setDoc(doc(db, 'users', `${user.uid}`), {
+                displayName: user.displayName
+            })
+    
+            const charDoc = await addDoc(collection(db, 'users', `${user.uid}`, 'characters'), newChar)
+    
+            newChar.id = charDoc.id
+    
+            getChars()
+            
+        } else {
+            console.log('Character cannot be added')
+        }
     }
     
     

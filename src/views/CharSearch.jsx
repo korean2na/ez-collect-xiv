@@ -1,11 +1,15 @@
 import { useState, useContext, useEffect } from "react";
 import { DataContext } from "../contexts/DataProvider";
-import Search from "../components/Search";
 import SingleResult from "../components/SingleResult";
 
 export default function CharSearch() {
-    const { chars, getChars, loadCharInfo, addChar, hideChar } = useContext(DataContext)
-    const [searchResults, setSearchResults] = useState([])
+    const { char, chars, getChars, loadCharInfo, addChar, hideChar } = useContext(DataContext)
+    const [searchResults, setSearchResults] = useState([{
+        Avatar: char.avatarUrl,
+        ID: char.lodestoneId,
+        Name: char.charName,
+        Server: char.server
+    }])
 
     async function searchChar(ev) {
         ev.preventDefault()
@@ -29,7 +33,7 @@ export default function CharSearch() {
         <div id="CharSearch">
             <h1 className="text-light text-center pb-3"><strong>Character Search</strong></h1>
             <div className="row justify-content-center">
-                <div className="card col-6 p-4 shadow-lg rounded">
+                <div className="card col-6 p-4 mb-5 shadow-lg rounded">
                     <form onSubmit={searchChar}>
                         <label htmlFor="serverName" className="form-label">Home World</label>
                         <select name="serverName" className="form-select mb-3" aria-label="serverName">
@@ -126,7 +130,17 @@ export default function CharSearch() {
                     </form>
                 </div>
 
-                { searchResults.map(result => <SingleResult key={result['ID']} result={result}/>) }
+                {
+                    (searchResults.length == 0) ?
+                    <>
+                        <div className="row justify-content-center">
+                            <div className="card col-6 text-center gap-3 py-4 mb-5 shadow-lg rounded">
+                                <h2><strong>No Results Found</strong></h2>
+                            </div>
+                        </div>
+                    </> :
+                    searchResults.map(result => <SingleResult key={result['ID']} result={result}/>)
+                }
             </div>
         </div>
     )
