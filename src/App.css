@@ -129,3 +129,16 @@ html, main {
     transition-property: background-color;
     background-color: goldenrod;
   }
+
+  #credits a {
+    text-decoration: none;
+    transition-duration: 200ms;
+    transition-property: color;
+    color: goldenrod;
+  }
+  
+  #credits a:hover {
+    transition-duration: 200ms;
+    transition-property: color;
+    color: gold;
+  }
