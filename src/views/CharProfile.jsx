@@ -42,8 +42,8 @@ export default function CharProfile() {
                             <div className="row justify-content-center">
                                 <div className="col-4 px-0">
                                     <div className="row mb-5">
-                                        <div id="portrait-box" className='ms-4 px-0'>
-                                            <a href={charInfo.portrait} target="_blank" rel="noopener noreferrer"><img id="portrait" src={charInfo.portrait} alt='character portrait' /></a>
+                                        <div id="portrait-box" className='ms-4 px-0 shadow'>
+                                            <a href={charInfo.portrait} target="_blank" rel="noopener noreferrer"><img id="portrait" src={charInfo.portrait} alt='character portrait'/></a>
                                         </div>
                                     </div>
                                     <div className="row justify-content-center">
@@ -98,12 +98,12 @@ export default function CharProfile() {
                                             }
                                         </div>
                                     </Link>
-                                    <div className="row card py-3 shadow rounded">
+                                    <div className="row justify-content-center card ps-4 py-3 shadow rounded">
                                         <div className="row">
                                             <h4 className="mb-3">Relics</h4>
-                                            <hr className="mx-2"/>
+                                            <hr className="px-2"/>
                                         </div>
-                                        <div className="row">
+                                        <div className="row justify-content-evenly">
                                             <div className="col-4">
                                                 <a id="relic-card" href="https://ffxivcollect.com/relics/weapons" target="_blank" className="card py-3 shadow rounded">
                                                     <p className="mb-0"><strong>Relic Weapons</strong><hr className="mx-2"/>{charInfo.relics.weapons.count} of {charInfo.relics.weapons.total}<br/><br/>({percent(charInfo.relics.weapons.count, charInfo.relics.weapons.total)}%)</p>
@@ -114,7 +114,6 @@ export default function CharProfile() {
                                                     <p className="mb-0"><strong>Relic Armor Pieces</strong><hr className="mx-2"/>{charInfo.relics.armor.count} of {charInfo.relics.armor.total}<br/><br/>({percent(charInfo.relics.armor.count, charInfo.relics.armor.total)}%)</p>
                                                 </a>
                                             </div>
-                                            
                                             <div className="col-4">
                                                 <a id="relic-card" href="https://ffxivcollect.com/relics/tools" target="_blank" className="card py-3 shadow rounded">
                                                     <p className="mb-0"><strong>Relic Tools</strong><hr className="mx-2"/>{charInfo.relics.tools.count} of {charInfo.relics.tools.total}<br/><br/>({percent(charInfo.relics.tools.count, charInfo.relics.tools.total)}%)</p>
