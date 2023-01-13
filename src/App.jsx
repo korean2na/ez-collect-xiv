@@ -7,7 +7,9 @@ import LoginView from './views/LoginView';
 import UserProfile from './views/UserProfile';
 import CharSearch from './views/CharSearch';
 import CharProfile from './views/CharProfile';
+import Achievements from './views/Achievements';
 import Mounts from './views/Mounts';
+import Minions from './views/Minions';
 
 export default function App() {
   const { user, googleLogin, logout } = useContext(AuthContext)
@@ -93,19 +95,21 @@ export default function App() {
             <CharSearch /> :
             <LoginView />
           } />
+          <Route path="/achievements" element={
+            (user.loggedIn) ?
+            <Achievements /> :
+            <LoginView />
+          } />
           <Route path="/mounts" element={
             (user.loggedIn) ?
             <Mounts /> :
             <LoginView />
           } />
-          {/* <Route path="/profile" element={
+          <Route path="/minions" element={
             (user.loggedIn) ?
-            <>
-            <Profile />
-            </> :
-            <>
+            <Minions /> :
             <LoginView />
-            </>} /> */}
+          } />
         </Routes>
       </BrowserRouter>
     </div>

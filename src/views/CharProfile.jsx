@@ -50,7 +50,7 @@ export default function CharProfile() {
                                         {
                                             (charInfo.achievements.public == true) ?
                                                 <>
-                                                    <div className="col-10 card py-3 me-4 shadow rounded">
+                                                    <Link id="achievements-card" to="/achievements" className="col-10 card py-3 me-4 shadow rounded">
                                                         <h4 className="mb-0">Achievements</h4>
                                                         <hr className="mx-2" />
                                                         <p>{charInfo.achievements.count} of {charInfo.achievements.total} completed &nbsp; ({percent(charInfo.achievements.count, charInfo.achievements.total)}%)</p>
@@ -58,7 +58,7 @@ export default function CharProfile() {
                                                         <p>{charInfo.server} Rank: #{charInfo.rankings.achievements.server}</p>
                                                         <p>{charInfo.data_center} Rank: #{charInfo.rankings.achievements.data_center}</p>
                                                         <p>Global Rank: #{charInfo.rankings.achievements.global}</p>
-                                                    </div>
+                                                    </Link>
                                                 </> :
                                                 <></>
                                         }
