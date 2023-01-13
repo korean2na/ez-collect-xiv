@@ -1,5 +1,5 @@
 import { useState, useEffect, createContext, useContext} from "react";
-import { getFirestore, collection, doc, getDoc, getDocs, setDoc, addDoc, deleteDoc, query, orderBy, updateDoc } from '@firebase/firestore'
+import { getFirestore, collection, doc, getDoc, getDocs, setDoc, addDoc, deleteDoc, query, orderBy, updateDoc, where } from '@firebase/firestore'
 import { AuthContext } from "./AuthProvider";
 
 export const DataContext = createContext()
@@ -7,6 +7,7 @@ export const DataContext = createContext()
 export const DataProvider = function (props) {
     const db = getFirestore()
     const { user } = useContext(AuthContext)
+    const [loading, setLoading] = useState(false)
     const [chars, setChars] = useState([])
     const [char, setChar] = useState({})
     const [charInfo, setCharInfo] = useState({})
@@ -91,6 +92,7 @@ export const DataProvider = function (props) {
     
     const getChars = async function() {
         if (user.loggedIn == true) {
+            setLoading(true)
             const q = query(collection(db, 'users', `${user.uid}`, 'characters'))
             // const q = query(collection(db, 'users', `${user.uid}`, 'characters'), orderBy('selected', 'desc'))
             const querySnap = await getDocs(q)
@@ -120,17 +122,23 @@ export const DataProvider = function (props) {
                     console.log(err)
                 }
             })
+
+            setLoading(false)
         }
     }
 
     const loadCharInfo = async function() {
+        
         if (user.loggedIn == true) {
+            setLoading(true)
             const charInfo = await getCharInfo(char.lodestoneId)
             setCharInfo(charInfo)
             setOwnedAchievements(charInfo.achievements.ids)
             setOwnedMounts(charInfo.mounts.ids)
             setOwnedMinions(charInfo.minions.ids)
+            setLoading(false)
         }
+        
     }
 
     async function selectChar(id) {
@@ -158,10 +166,26 @@ export const DataProvider = function (props) {
 
     async function unhideChar(id) {
         const charRef = doc(db, 'users', `${user.uid}`, 'characters', `${id}`)
+        const q = query(collection(db, 'users', `${user.uid}`, 'characters'), where('hidden', '==', 'true'))
+        const querySnap = await getDocs(q)
+        let counter = 0
 
-        await updateDoc(charRef, {
-            hidden: false
+        querySnap.forEach((doc) => {
+            if (doc.data().selected) {
+                counter += 1
+            }
         })
+
+        if (counter == 0) {
+            await updateDoc(charRef, {
+                hidden: false,
+                selected: true
+            })
+        } else {
+            await updateDoc(charRef, {
+                hidden: false
+            })
+        }
     }
 
     async function addChar(LID, charName, server) {
@@ -171,6 +195,10 @@ export const DataProvider = function (props) {
             lodestoneId: LID,
             selected: false,
             server: server
+        }
+        
+        if (chars.length == 0) {
+            newChar.selected = true
         }
 
         await setDoc(doc(db, 'users', `${user.uid}`), {
@@ -229,19 +257,27 @@ export const DataProvider = function (props) {
     useEffect(() => {
         if (user.loggedIn == true) {
             getChars()
+        } else {
+            setChars([])
+            setChar({})
         }
 
     }, [user])
 
     useEffect(() => {
-        loadCharInfo()
-
+        if (user.loggedIn == true) {
+            loadCharInfo()
+        }
+        
     }, [char])
 
 
     const value = {
+        loading,
         chars,
+        setChars,
         char,
+        setChar,
         charInfo,
         ownedAchievements,
         ownedMounts,

@@ -2,7 +2,7 @@ import { useContext } from "react"
 import { DataContext } from "../contexts/DataProvider"
 
 export default function SingleChar(props) {
-    const { selectChar, getChars, loadCharInfo, hideChar, removeChar } = useContext(DataContext)
+    const { selectChar, getChars, loadCharInfo, hideChar, unhideChar, removeChar } = useContext(DataContext)
 
     const alertBar = document.getElementById('liveAlertBar')
 
@@ -32,6 +32,13 @@ export default function SingleChar(props) {
         alert('Characted hidden successfully.', 'secondary')
     }
 
+    async function handleUnhideChar(id) {
+        window.scrollTo(0, 0)
+        await unhideChar(id)
+        await getChars()
+        alert('Characted unhidden successfully.', 'success')
+    }
+
     async function handleRemoveChar(id) {
         window.scrollTo(0, 0)
         await removeChar(id)
@@ -47,9 +54,43 @@ export default function SingleChar(props) {
                 </div>
             </div>
         )
-    } else if (props.singleChar.selected == true || props.singleChar.hidden == true) {
+    } else if (props.singleChar.selected == true) {
         return null
-    } else {
+    } else if (props.showHidden === 'yes' && props.singleChar.hidden == true) {
+        return (
+            <div className="row justify-content-center">
+                <div id="liveAlertBar"></div>
+                <div className="card col-6 text-center py-4 mb-5 shadow-lg rounded">
+                    <hr className="mx-2 mt-0"/>
+                    <div className="row align-items-center">
+                        <div className="col-8 text-start">
+                            <h4 className="mb-0 ms-5 ps-3"><img id='avatar' src={ props.singleChar.avatarUrl } alt='' height='75' width='75' className='me-4'/> <strong>{ props.singleChar.charName }</strong></h4>
+                        </div>
+                        <div className="col-3 text-end ps-0 pe-0">
+                            <p className="text-black text-opacity-50 mb-0">Lodestone ID:</p>
+                            <p className="mb-0">{ props.singleChar.lodestoneId }</p>
+                            <br />
+                            <p className="text-black text-opacity-50 mb-0">Server:</p>
+                            <p className="mb-0">{ props.singleChar.server }</p>
+                        </div>
+                    </div>
+                    <hr className="mx-2"/>
+                    <div className="row">
+                        <div className="col-6">
+                            <div className="row justify-content-start mx-4">
+                                <button onClick={() => handleUnhideChar(props.singleChar.id)} className="col-5 btn btn-info">Unhide</button>
+                            </div>
+                        </div>
+                        <div className="col-6">
+                            <div className="row justify-content-end mx-4">
+                                <button onClick={() => handleRemoveChar(props.singleChar.id)} className="col-5 btn btn-danger">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    } else if (props.singleChar.hidden != true) {
         return (
             <div className="row justify-content-center">
                 <div id="liveAlertBar"></div>

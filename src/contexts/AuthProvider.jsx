@@ -1,5 +1,6 @@
 import { useContext, createContext, useEffect, useState } from "react";
 import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from '@firebase/auth'
+import { DataContext } from "./DataProvider";
 
 export const AuthContext = createContext()
 
@@ -30,7 +31,8 @@ export const AuthProvider = function (props) {
 
     async function logout() {
         const result = await signOut(auth)
-        console.log(result)        
+        console.log(result)
+
     }
 
     useEffect(() => {
