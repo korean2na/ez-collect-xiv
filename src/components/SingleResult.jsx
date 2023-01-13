@@ -3,7 +3,21 @@ import { useContext } from "react"
 import { DataContext } from "../contexts/DataProvider"
 
 export default function SingleResult(props) {
-    const { char, chars, selectChar, getChars, loadCharInfo, hideChar, unhideChar, addChar, removeChar } = useContext(DataContext)
+    const { char, chars, selectChar, getChars, loadCharInfo, hideChar, unhideChar, checkFFXIVC, addChar, removeChar } = useContext(DataContext)
+
+    const alertBar = document.getElementById('liveAlertBar')
+
+    const alert = (message, type) => {
+      const wrapper = document.createElement('div')
+      wrapper.innerHTML = [
+        `<div class="alert alert-${type} alert-dismissible fade show" role="alert">`,
+        `   <div>${message}</div>`,
+        '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+        '</div>'
+      ].join('')
+  
+      alertBar.append(wrapper)
+    }
 
     const filtered = chars.filter(n => n.lodestoneId == props.result['ID'])
 
@@ -15,40 +29,56 @@ export default function SingleResult(props) {
                 return 'HIDDEN'
             }
             return 'ADDED'
-        }
-
-        return 'FREE'
+        } else {
+            return 'FREE'
+        } 
     }
 
     const status = addedCheck(props.result['ID'])
 
     async function handleSelectChar(id) {
+        window.scrollTo(0, 0)
         await selectChar(id)
         await getChars()
         await loadCharInfo()
+        alert('Characted selected successfully.', 'success')
     }
 
     async function handleHideChar(id) {
+        window.scrollTo(0, 0)
         await hideChar(id)
         await getChars()
+        alert('Characted hidden successfully.', 'secondary')
     }
 
     async function handleUnhideChar(id) {
+        window.scrollTo(0, 0)
         await unhideChar(id)
         await getChars()
+        alert('Characted unhidden successfully.', 'success')
     }
 
     async function handleAddChar(LID, charName, server) {
-        await addChar(LID, charName, server)
+        window.scrollTo(0, 0)
+        if (await checkFFXIVC(LID) == true) {
+            await addChar(LID, charName, server)
+            await getChars()
+            alert('Characted added successfully.', 'success')
+        } else {
+            alert('Unable to add. Character may be set to private or currently unavailable.', 'danger')
+        }
     }
 
     async function handleRemoveChar(id) {
+        window.scrollTo(0, 0)
         await removeChar(id)
         await getChars()
+        alert('Characted removed successfully.', 'secondary')
     }
   
     return (
         <div className="row justify-content-center">
+            <div id="liveAlertBar"></div>
             <div className="card col-6 text-center py-4 mb-5 shadow-lg rounded">
                 {
                     (status === 'SELECTED') ?
@@ -109,13 +139,15 @@ export default function SingleResult(props) {
                                 </div>
                             </div>
                         </> :
+                    (status === 'FREE') ?
                     <>
                         <div className="row justify-content-center">
                             <div className="col-8">
                                 <button onClick={() => handleAddChar(props.result['ID'], props.result.Name, props.result.Server)} className="col-6 btn btn-success">Add</button>
                             </div>
                         </div>
-                    </>
+                    </> :
+                    <></>
                 }
             </div>
         </div>

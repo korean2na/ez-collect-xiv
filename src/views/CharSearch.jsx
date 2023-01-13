@@ -1,12 +1,26 @@
 import { useState, useContext, useEffect } from "react";
-import { AuthContext } from "../contexts/AuthProvider";
-import { DataContext } from "../contexts/DataProvider";
+// import { AuthContext } from "../contexts/AuthProvider";
+// import { DataContext } from "../contexts/DataProvider";
 import SingleResult from "../components/SingleResult";
 
 export default function CharSearch() {
-    const { char, chars, getChars, loadCharInfo, addChar, hideChar } = useContext(DataContext)
-    const { user } = useContext(AuthContext)
+    // const { char, chars, getChars, loadCharInfo, addChar, hideChar } = useContext(DataContext)
+    // const { user } = useContext(AuthContext)
     const [searchResults, setSearchResults] = useState(['init'])
+
+    const alertBar = document.getElementById('liveAlertBar')
+
+    const alert = (message, type) => {
+      const wrapper = document.createElement('div')
+      wrapper.innerHTML = [
+        `<div class="alert alert-${type} alert-dismissible fade show" role="alert">`,
+        `   <div>${message}</div>`,
+        '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+        '</div>'
+      ].join('')
+  
+      alertBar.append(wrapper)
+    }
 
     async function searchChar(ev) {
         ev.preventDefault()
@@ -23,11 +37,14 @@ export default function CharSearch() {
                 console.log('ERROR! ERROR! ERROR!')
                 console.log(err)
             }
+        } else {
+            alert('Character Name cannot be empty. Please try again.','warning')
         }
     }
 
     return (
         <div id="CharSearch">
+            <div id="liveAlertBar"></div>
             <h1 className="text-light text-center pb-3"><strong>Character Search</strong></h1>
             <div className="row justify-content-center">
                 <div className="card col-6 p-4 mb-5 shadow-lg rounded">

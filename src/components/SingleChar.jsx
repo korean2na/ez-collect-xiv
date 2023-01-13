@@ -1,23 +1,44 @@
 import { useContext } from "react"
+import { Link } from 'react-router-dom'
 import { DataContext } from "../contexts/DataProvider"
 
 export default function SingleChar(props) {
     const { selectChar, getChars, loadCharInfo, hideChar, removeChar } = useContext(DataContext)
 
+    const alertBar = document.getElementById('liveAlertBar')
+
+    const alert = (message, type) => {
+      const wrapper = document.createElement('div')
+      wrapper.innerHTML = [
+        `<div class="alert alert-${type} alert-dismissible fade show" role="alert">`,
+        `   <div>${message}</div>`,
+        '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+        '</div>'
+      ].join('')
+  
+      alertBar.append(wrapper)
+    }
+
     async function handleSelectChar(id) {
+        window.scrollTo(0, 0)
         await selectChar(id)
         await getChars()
         await loadCharInfo()
+        alert('Characted selected successfully.', 'success')
     }
 
     async function handleHideChar(id) {
+        window.scrollTo(0, 0)
         await hideChar(id)
         await getChars()
+        alert('Characted hidden successfully.', 'secondary')
     }
 
     async function handleRemoveChar(id) {
+        window.scrollTo(0, 0)
         await removeChar(id)
         await getChars()
+        alert('Characted removed successfully.', 'secondary')
     }
 
     if (!props.singleChar) {
@@ -28,11 +49,14 @@ export default function SingleChar(props) {
                 </div>
             </div>
         )
-    } else if (props.singleChar.hidden == true) {
-        return null
+    } else if (props.singleChar.selected == true) {
+        console.log('selected')
+    } else if (props.singleChar.hidden == true ) {
+        console.log('hidden')
     } else {
         return (
             <div className="row justify-content-center">
+                <div id="liveAlertBar"></div>
                 <div className="card col-6 text-center py-4 mb-5 shadow-lg rounded">
                     <hr className="mx-2 mt-0"/>
                     <div className="row align-items-center">

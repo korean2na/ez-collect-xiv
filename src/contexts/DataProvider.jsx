@@ -82,14 +82,8 @@ export const DataProvider = function (props) {
         const charsDocs = []
 
         querySnap.forEach(async (doc) => {
-            // const userData = await getDoc(doc.ref.parent.parent)
-            // const username = userData.data().username
-        
             try{
                 const avatar = await getCharAvatar(doc.data().lodestoneId)
-                // const lodestoneId = doc.data().lodestoneId
-                // const hidden = doc.data().hidden
-
                 if (doc.data().selected) {
                     const charDoc = {
                         id: doc.id,
@@ -97,15 +91,13 @@ export const DataProvider = function (props) {
                         ...doc.data()
                     }
                     setChar(charDoc)
-                } else {
-                    charsDocs.push({
-                        id: doc.id,
-                        avatarUrl: avatar,
-                        ...doc.data()
-                    })
-                    setChars(charsDocs)
                 }
-
+                charsDocs.push({
+                    id: doc.id,
+                    avatarUrl: avatar,
+                    ...doc.data()
+                })
+                setChars(charsDocs)
             } catch (err) {
                 console.log('ERROR! ERROR! ERROR!')
                 console.log(err)
@@ -131,7 +123,8 @@ export const DataProvider = function (props) {
         const newCharRef = doc(db, 'users', `${user.uid}`, 'characters', `${id}`)
 
         await updateDoc(newCharRef, {
-            selected: true
+            selected: true,
+            hidden: false
         })
     }
 
@@ -152,28 +145,23 @@ export const DataProvider = function (props) {
     }
 
     async function addChar(LID, charName, server) {
-        if (await checkFFXIVC(LID) == true) {
-            const newChar = {
-                charName: charName,
-                hidden: false,
-                lodestoneId: LID,
-                selected: false,
-                server: server
-            }
-
-            const userDoc = await setDoc(doc(db, 'users', `${user.uid}`), {
-                displayName: user.displayName
-            })
-    
-            const charDoc = await addDoc(collection(db, 'users', `${user.uid}`, 'characters'), newChar)
-    
-            newChar.id = charDoc.id
-    
-            getChars()
-            
-        } else {
-            console.log('Character cannot be added')
+        const newChar = {
+            charName: charName,
+            hidden: false,
+            lodestoneId: LID,
+            selected: false,
+            server: server
         }
+
+        await setDoc(doc(db, 'users', `${user.uid}`), {
+            displayName: user.displayName
+        })
+
+        const charDoc = await addDoc(collection(db, 'users', `${user.uid}`, 'characters'), newChar)
+
+        newChar.id = charDoc.id
+
+        getChars()
     }
     
     async function removeChar(id) {
