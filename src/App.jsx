@@ -7,6 +7,7 @@ import LoginView from './views/LoginView';
 import UserProfile from './views/UserProfile';
 import CharSearch from './views/CharSearch';
 import CharProfile from './views/CharProfile';
+import Mounts from './views/Mounts';
 
 export default function App() {
   const { user, googleLogin, logout } = useContext(AuthContext)
@@ -90,6 +91,11 @@ export default function App() {
           <Route path="/search" element={
             (user.loggedIn) ?
             <CharSearch /> :
+            <LoginView />
+          } />
+          <Route path="/mounts" element={
+            (user.loggedIn) ?
+            <Mounts /> :
             <LoginView />
           } />
           {/* <Route path="/profile" element={

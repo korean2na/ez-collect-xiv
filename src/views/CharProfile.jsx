@@ -1,4 +1,5 @@
 import { useContext, useEffect } from "react";
+import { Link } from 'react-router-dom'
 import { DataContext } from "../contexts/DataProvider";
 
 export default function CharProfile() {
@@ -40,7 +41,7 @@ export default function CharProfile() {
                             <hr className="mx-2 pb-2" />
                             <div className="row justify-content-center">
                                 <div className="col-4 px-0">
-                                    <div className="row mb-3">
+                                    <div className="row mb-5">
                                         <div id="portrait-box" className='ms-4 px-0'>
                                             <a href={charInfo.portrait} target="_blank" rel="noopener noreferrer"><img id="portrait" src={charInfo.portrait} alt='character portrait' /></a>
                                         </div>
@@ -64,7 +65,7 @@ export default function CharProfile() {
                                     </div>
                                 </div>
                                 <div className="col-6 ps-3 me-3">
-                                    <div className="row card py-3 mb-4 shadow rounded">
+                                    <Link id="mounts-card" to="/mounts" className="row card py-3 mb-4 shadow rounded">
                                         <div className="col">
                                             <h4 className="mb-0">Mounts</h4>
                                             <hr className="mx-2" />
@@ -79,11 +80,12 @@ export default function CharProfile() {
                                                     <></>
                                             }
                                         </div>
-                                    </div>
-                                    <div className="row card py-3 mb-4 shadow rounded">
+                                    </Link>
+                                    <a href=""></a>
+                                    <Link id="minions-card" to="/minions" className="row card py-3 mb-4 shadow rounded">
                                         <div className="col">
                                             <h4 className="mb-0">Minions</h4>
-                                            <hr className="mx-2" />
+                                            <hr className="mx-2"/>
                                             <p>{charInfo.minions.count} of {charInfo.minions.total} collected &nbsp; ({percent(charInfo.minions.count, charInfo.minions.total)}%)</p>
                                             {
                                                 (charInfo.rankings.minions.server != null) ?
@@ -95,14 +97,29 @@ export default function CharProfile() {
                                                     <></>
                                             }
                                         </div>
-                                    </div>
+                                    </Link>
                                     <div className="row card py-3 shadow rounded">
-                                        <div className="col">
-                                            <h4 className="mb-0">Relics</h4>
-                                            <hr className="mx-2" />
-                                            <p>{charInfo.relics.weapons.count} of {charInfo.relics.weapons.total} relic weapons collected &nbsp; ({percent(charInfo.relics.weapons.count, charInfo.relics.weapons.total)}%)</p>
-                                            <p>{charInfo.relics.armor.count} of {charInfo.relics.armor.total} relic armor pieces collected &nbsp; ({percent(charInfo.relics.armor.count, charInfo.relics.armor.total)}%)</p>
-                                            <p>{charInfo.relics.tools.count} of {charInfo.relics.tools.total} relic tools collected &nbsp; ({percent(charInfo.relics.tools.count, charInfo.relics.tools.total)}%)</p>
+                                        <div className="row">
+                                            <h4 className="mb-3">Relics</h4>
+                                            <hr className="mx-2"/>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-4">
+                                                <a id="relic-w-card" href="https://ffxivcollect.com/relics/weapons" target="_blank" className="card py-3 shadow rounded">
+                                                    <p className="mb-0"><strong>Relic Weapons</strong><hr className="mx-2"/>{charInfo.relics.weapons.count} of {charInfo.relics.weapons.total}<br/><br/>({percent(charInfo.relics.weapons.count, charInfo.relics.weapons.total)}%)</p>
+                                                </a>
+                                            </div>
+                                            <div className="col-4">
+                                                <a id="relic-a-card" href="https://ffxivcollect.com/relics/armor" target="_blank" className="card py-3 shadow rounded">
+                                                    <p className="mb-0"><strong>Relic Armor Pieces</strong><hr className="mx-2"/>{charInfo.relics.armor.count} of {charInfo.relics.armor.total}<br/><br/>({percent(charInfo.relics.armor.count, charInfo.relics.armor.total)}%)</p>
+                                                </a>
+                                            </div>
+                                            
+                                            <div className="col-4">
+                                                <a id="relic-t-card" href="https://ffxivcollect.com/relics/tools" target="_blank" className="card py-3 shadow rounded">
+                                                    <p className="mb-0"><strong>Relic Tools</strong><hr className="mx-2"/>{charInfo.relics.tools.count} of {charInfo.relics.tools.total}<br/><br/>({percent(charInfo.relics.tools.count, charInfo.relics.tools.total)}%)</p>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

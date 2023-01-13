@@ -1,5 +1,4 @@
 import { useContext } from "react"
-import { Link } from 'react-router-dom'
 import { DataContext } from "../contexts/DataProvider"
 
 export default function SingleChar(props) {

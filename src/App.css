@@ -103,3 +103,16 @@ html, main {
     object-fit:contain;
     border-radius: 10px;
   }
+
+  #mounts-card, #minions-card, #relic-w-card, #relic-a-card, #relic-t-card {
+    text-decoration: none;
+    color: black;
+    transition-duration: 200ms;
+    transition-property: background-color;
+  }
+
+  #mounts-card:hover, #minions-card:hover, #relic-w-card:hover, #relic-a-card:hover, #relic-t-card:hover {
+    transition-duration: 200ms;
+    transition-property: background-color;
+    background-color: goldenrod;
+  }
