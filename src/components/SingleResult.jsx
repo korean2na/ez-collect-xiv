@@ -105,7 +105,7 @@ export default function SingleResult(props) {
                         <>
                             <div className="row justify-content-center">
                                 <div className="col-10">
-                                    <Link to={ '/profile' } className="col-12 btn btn-info text-white">View Profile</Link>
+                                    <Link to={ '/profile' } className="col-12 btn btn-warning">View Profile</Link>
                                 </div>
                             </div>
                         </> :
@@ -128,7 +128,7 @@ export default function SingleResult(props) {
                             <div className="row">
                                 <div className="col-6">
                                     <div className="row justify-content-start mx-4">
-                                        <button onClick={() => handleUnhideChar(filtered[0].id)} className="col-5 btn btn-warning">Unhide</button>
+                                        <button onClick={() => handleUnhideChar(filtered[0].id)} className="col-5 btn btn-info">Unhide</button>
                                     </div>
                                 </div>
                                 <div className="col-6">

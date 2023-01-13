@@ -4,8 +4,9 @@ import SingleMount from "../components/SingleMount";
 
 export default function Mounts() {
     const { charInfo, getChars, getMounts, mountsList } = useContext(DataContext)
-    
+
     useEffect(() => {
+        window.scrollTo(0, 0)
         if (charInfo == null) {
             getChars()
         }

@@ -45,7 +45,7 @@ html, main {
   #left-nav strong:hover {
     transition-duration: 200ms;
     transition-property: color;
-    color: lightgray;
+    color: goldenrod;
   }
   
   #titlehead a {
@@ -102,16 +102,25 @@ html, main {
     max-width: 100%;
     object-fit:contain;
     border-radius: 10px;
+    transition-duration: 200ms;
+    transition-property: opacity;
+    opacity: 1;
   }
 
-  #achievements-card, #mounts-card, #minions-card, #relic-card, #mount-single, #ach-single {
+  #portrait:hover {
+    transition-duration: 200ms;
+    transition-property: opacity;
+    opacity: 0.8;
+  }
+
+  #achievements-card, #mounts-card, #minions-card, #relic-card, #mount-single, #ach-single, #minion-single {
     text-decoration: none;
     color: black;
     transition-duration: 200ms;
     transition-property: background-color;
   }
 
-  #achievements-card:hover, #mounts-card:hover, #minions-card:hover, #relic-card:hover, #mount-single:hover, #ach-single:hover {
+  #achievements-card:hover, #mounts-card:hover, #minions-card:hover, #relic-card:hover, #mount-single:hover, #ach-single:hover, #minion-single:hover {
     transition-duration: 200ms;
     transition-property: background-color;
     background-color: goldenrod;

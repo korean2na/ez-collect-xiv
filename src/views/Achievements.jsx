@@ -6,6 +6,7 @@ export default function Achievements() {
     const { charInfo, getChars, getAchievements, achievementsList } = useContext(DataContext)
     
     useEffect(() => {
+        window.scrollTo(0, 0)
         if (charInfo == null) {
             getChars()
         }
