@@ -23,7 +23,6 @@ export default function SingleChar(props) {
         window.scrollTo(0, 0)
         await selectChar(id)
         await getChars()
-        await loadCharInfo()
         alert('Characted selected successfully.', 'success')
     }
 
@@ -49,10 +48,8 @@ export default function SingleChar(props) {
                 </div>
             </div>
         )
-    } else if (props.singleChar.selected == true) {
-        console.log('selected')
-    } else if (props.singleChar.hidden == true ) {
-        console.log('hidden')
+    } else if (props.singleChar.selected == true || props.singleChar.hidden == true) {
+        return null
     } else {
         return (
             <div className="row justify-content-center">

@@ -11,9 +11,8 @@ export default function Home() {
 
     useEffect(() => {
         getChars()
-        loadCharInfo()
 
-    }, [user])
+    }, [])
 
     return (
         <div id="Home">
@@ -21,12 +20,14 @@ export default function Home() {
                 <h1 className="col-6 text-light ms-3 pb-3"><strong>Your Characters</strong></h1>
             </div>
             {
-                (char.charName != null) ?
+                (char.charName == null) ?
+                <>
+                <p className='text-center text-white'>Loading...</p>      
+                </> :
                 <>
                     {<SelectedChar />}
                     { chars.map(singleChar => <SingleChar key={singleChar.id} singleChar={singleChar}/>) }
-                </> :
-                <><p className='text-center text-white'>Loading...</p></>
+                </>
             }
         </div>
     )

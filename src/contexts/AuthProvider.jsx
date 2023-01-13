@@ -4,9 +4,7 @@ import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPas
 export const AuthContext = createContext()
 
 export const AuthProvider = function (props) {
-    const [user, setUser] = useState({
-        loggedIn: false
-    })
+    const [user, setUser] = useState({})
     const auth = getAuth()
     const provider = new GoogleAuthProvider()
 
@@ -50,7 +48,7 @@ export const AuthProvider = function (props) {
                 })
             }
         })
-    },[])
+    }, [])
 
     const value = {
         user,

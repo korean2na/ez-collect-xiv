@@ -28,8 +28,10 @@ export const DataProvider = function (props) {
         try {
             const checkResponse = await fetch(`https://ffxivcollect.com/api/characters/${LID}/`)
             if (checkResponse.status === 200) {
+                console.log('CHECK (1 call to xivapi)')
                 return true
             } else {
+                console.log('CHECK (1 call to xivapi)')
                 return false
             }
 
@@ -40,44 +42,51 @@ export const DataProvider = function (props) {
     }
 
     const getCharInfo = async function(LID) {
-        try{
-            const charResponse = await fetch(`https://ffxivcollect.com/api/characters/${LID}?latest=true&ids=true/`)
-            const charData = await charResponse.json()
-
-            return {
-                id: charData.id,
-                name: charData.name,
-                server: charData.server,
-                dataCenter: charData.data_center,
-                portrait: charData.portrait,
-                avatar: charData.avatar,
-                lastParsed: charData.last_parsed,
-                achievements: charData.achievements,
-                mounts: charData.mounts,
-                minions: charData.minions,
-                rankings: charData.rankings,
-                relics: charData.relics
+        if (user.loggedIn == true) {
+            try{
+                const charResponse = await fetch(`https://ffxivcollect.com/api/characters/${LID}?latest=true&ids=true/`)
+                const charData = await charResponse.json()
+                
+                console.log('CHAR loaded (1 call to ffxivc')
+                return {
+                    id: charData.id,
+                    name: charData.name,
+                    server: charData.server,
+                    dataCenter: charData.data_center,
+                    portrait: charData.portrait,
+                    avatar: charData.avatar,
+                    lastParsed: charData.last_parsed,
+                    achievements: charData.achievements,
+                    mounts: charData.mounts,
+                    minions: charData.minions,
+                    rankings: charData.rankings,
+                    relics: charData.relics
+                }
+            } catch (err) {
+                console.log('ERROR! ERROR! ERROR!')
+                console.log(err)
             }
-        } catch (err) {
-            console.log('ERROR! ERROR! ERROR!')
-            console.log(err)
         }
     }
 
     const getCharAvatar = async function(LID) {
-        try{
-            const charResponse = await fetch(`https://xivapi.com/character/${LID}`)
-            const charData = await charResponse.json()
-
-            return charData.Character.Avatar
-        } catch (err) {
-            console.log('ERROR! ERROR! ERROR!')
-            console.log(err)
-        }
+        if (user.loggedIn == true) {
+            try{
+                const charResponse = await fetch(`https://xivapi.com/character/${LID}`)
+                const charData = await charResponse.json()
+    
+                return charData.Character.Avatar
+            } catch (err) {
+                console.log('ERROR! ERROR! ERROR!')
+                console.log(err)
+            }
+        }  
     }
     
     const getChars = async function() {
-        const q = query(collection(db, 'users', `${user.uid}`, 'characters'), orderBy('selected', 'desc'))
+        if (user.loggedIn == true) {
+            const q = query(collection(db, 'users', `${user.uid}`, 'characters'))
+        // const q = query(collection(db, 'users', `${user.uid}`, 'characters'), orderBy('selected', 'desc'))
         const querySnap = await getDocs(q)
         const charsDocs = []
 
@@ -98,19 +107,21 @@ export const DataProvider = function (props) {
                     ...doc.data()
                 })
                 setChars(charsDocs)
+
+                console.log(`AVATAR loaded (1 call to xivapi)`)
             } catch (err) {
                 console.log('ERROR! ERROR! ERROR!')
                 console.log(err)
             }
         })
-
-        console.log('Characters loaded')
+        }
     }
 
     const loadCharInfo = async function() {
-        const charInfo = await getCharInfo(char.lodestoneId)
-        console.log(`Info loaded for ${char.charName}`)
-        setCharInfo(charInfo)
+        if (user.loggedIn == true) {
+            const charInfo = await getCharInfo(char.lodestoneId)
+            setCharInfo(charInfo)
+        }
     }
 
     async function selectChar(id) {
@@ -170,15 +181,10 @@ export const DataProvider = function (props) {
         getChars()
     }
 
-    // useEffect(() => {
-    //     getChars()
-        
-    // }, [user])
+    useEffect(() => {
+        loadCharInfo()
 
-    // useEffect(() => {
-    //     loadCharInfo()
-
-    // }, [char])
+    }, [char])
 
 
     const value = {

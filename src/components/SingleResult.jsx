@@ -40,7 +40,6 @@ export default function SingleResult(props) {
         window.scrollTo(0, 0)
         await selectChar(id)
         await getChars()
-        await loadCharInfo()
         alert('Characted selected successfully.', 'success')
     }
 

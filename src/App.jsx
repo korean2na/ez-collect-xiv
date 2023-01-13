@@ -10,28 +10,27 @@ import CharProfile from './views/CharProfile';
 export default function App() {
   const { user, googleLogin, logout } = useContext(AuthContext)
 
-  // Partially works, just creates extra alerts on initial load.
-  // useEffect(() => {
-  //   const alertBar = document.getElementById('liveAlertBar')
+  useEffect(() => {
+    const alertBar = document.getElementById('liveAlertBar')
 
-  //   const alert = (message, type) => {
-  //     const wrapper = document.createElement('div')
-  //     wrapper.innerHTML = [
-  //       `<div class="alert alert-${type} alert-dismissible fade show" role="alert">`,
-  //       `   <div>${message}</div>`,
-  //       '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-  //       '</div>'
-  //     ].join('')
+    const alert = (message, type) => {
+      const wrapper = document.createElement('div')
+      wrapper.innerHTML = [
+        `<div class="alert alert-${type} alert-dismissible fade show" role="alert">`,
+        `   <div>${message}</div>`,
+        '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+        '</div>'
+      ].join('')
   
-  //     alertBar.append(wrapper)
-  //   }
+      alertBar.append(wrapper)
+    }
 
-  //   if (user.loggedIn == true) {
-  //     alert(`Successfully logged in. Welcome back, ${user.displayName}!`, 'success')
-  //   } else if (user.loggedIn == false) {
-  //     alert('Successfully logged out.', 'dark')
-  //   }
-  // }, [user.loggedIn])
+    if (user.loggedIn == true) {
+      alert(`Successfully logged in. Welcome back, ${user.displayName}!`, 'success')
+    } else if (user.loggedIn == false) {
+      alert('Successfully logged out.', 'dark')
+    }
+  }, [user.loggedIn])
 
   return (
     <div className="App" id="app">

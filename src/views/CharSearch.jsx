@@ -29,9 +29,11 @@ export default function CharSearch() {
         const charName = formData.get('charName')
         if (charName !== '') {
             try {
+                setSearchResults(['loading'])
                 const searchResponse = await fetch(`https://xivapi.com/character/search?name=${charName}&server=${serverName}`)
                 const searchData = await searchResponse.json()
 
+                console.log('SEARCH (1 call to xivapi)')
                 setSearchResults(searchData.Results)
             } catch (err) {
                 console.log('ERROR! ERROR! ERROR!')
@@ -147,6 +149,8 @@ export default function CharSearch() {
                 {
                     (searchResults[0] == 'init') ?
                     <></> :
+                    (searchResults[0] == 'loading') ?
+                    <><p className='text-center text-white'>Loading...</p></> :
                     (searchResults.length == 0) ?
                     <>
                         <div className="row justify-content-center">
