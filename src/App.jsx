@@ -41,7 +41,7 @@ export default function App() {
       <BrowserRouter>
         <nav id="navibar" className="navbar navbar-expand-lg px-3 pb-0">
           <div className="container-fluid">
-            <ul id="left-nav" className="navbar-nav align-items-center gap-4">
+            <ul id="left-nav" className="navbar-nav align-items-center mt-3 gap-4">
               <li className="nav-item"><Link to="/" className="nav-link active link-light"><strong>Home</strong></Link></li>
               {
                 (user.loggedIn) ?
@@ -56,13 +56,12 @@ export default function App() {
               {
                 (user.loggedIn) ?
                 <>
-                <li className="nav-item text-light"><strong>Logged in as:</strong></li>
-                <li className="nav-item text-light"><Link to="/user-profile" id="current-user" className="nav-link active"><strong>{ user.email }</strong></Link></li>
-                <li className="nav-item nav-link active mx-3"><button id="logoutBtn" onClick={logout}  className="btn btn-danger"><strong>Logout</strong></button></li>
+                <li className="nav-item text-light mt-2"><strong>Logged in as:</strong></li>
+                <li className="nav-item text-light mt-2"><Link to="/user-profile" id="current-user" className="nav-link active"><strong>{ user.email }</strong></Link></li>
+                <li className="nav-item nav-link active mx-3"><button id="logoutBtn" onClick={logout}  className="btn btn-danger mt-3"><strong>Logout</strong></button></li>
                 </> :
                 <>
-                <li className="nav-item text-light"><strong>(Currently not logged in.)</strong></li>
-                <li className="nav-item nav-link active"><button id="navLoginBtn" onClick={googleLogin} className="btn btn-warning"><strong>Login</strong></button></li>
+                <li className="nav-item nav-link active mx-3 mt-3"><button id="navLoginBtn" onClick={googleLogin} className="btn btn-warning"><strong>Login</strong></button></li>
                 </>
               }
               <li className="text-white text-end" id="titlehead">
@@ -72,7 +71,7 @@ export default function App() {
             </ul>
           </div>
         </nav>
-        <hr />
+        <hr id="navbar-line" className="mt-4"/>
         <div id="liveAlertBar"></div>
         <Routes>
           <Route path="/" element={

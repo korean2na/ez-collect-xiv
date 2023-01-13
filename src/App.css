@@ -5,7 +5,11 @@ html, main {
   #app {
     background-color: rgb(56, 54, 56);
   }
-  
+
+  #navbar-line {
+    color: white;
+  }
+
   #navibar {
     max-height: 50px;
   }
