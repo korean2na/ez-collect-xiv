@@ -5,14 +5,14 @@ import SelectedChar from "../components/SelectedChar";
 import SingleChar from "../components/SingleChar";
 
 export default function Home() {
-    const { chars, char, getChars, loadCharInfo, addChar, hideChar } = useContext(DataContext)
     const { user } = useContext(AuthContext)
+    const { chars, char, getChars, loadCharInfo, addChar, hideChar } = useContext(DataContext)
     const [loaded, setLoaded] = useState('FALSE')
 
-    useEffect(() => {
-        getChars()
+    // useEffect(() => {
+    //     getChars()
 
-    }, [])
+    // }, [])
 
     return (
         <div id="Home">
@@ -21,9 +21,7 @@ export default function Home() {
             </div>
             {
                 (char.charName == null) ?
-                <>
-                <p className='text-center text-white'>Loading...</p>      
-                </> :
+                <p className='text-center text-white'>Loading...</p> :
                 <>
                     {<SelectedChar />}
                     { chars.map(singleChar => <SingleChar key={singleChar.id} singleChar={singleChar}/>) }

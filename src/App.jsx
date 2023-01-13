@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { AuthContext } from './contexts/AuthProvider';
 import Home from './views/Home';
 import LoginView from './views/LoginView';
+import UserProfile from './views/UserProfile';
 import CharSearch from './views/CharSearch';
 import CharProfile from './views/CharProfile';
 
@@ -39,14 +40,21 @@ export default function App() {
           <div className="container-fluid">
             <ul id="left-nav" className="navbar-nav align-items-center gap-4">
               <li className="nav-item"><Link to="/" className="nav-link active link-light"><strong>Home</strong></Link></li>
-              <li className="nav-item"><Link to="/search" className="nav-link active link-light"><strong>Search</strong></Link></li>
+              {
+                (user.loggedIn) ?
+                <>
+                  <li className="nav-item"><Link to="/char-profile" className="nav-link active link-light"><strong>Character Profile</strong></Link></li>
+                  <li className="nav-item"><Link to="/search" className="nav-link active link-light"><strong>Search</strong></Link></li>
+                </> :
+                <></>
+              }
             </ul>
             <ul id="right-nav" className="navbar-nav align-items-center">
               {
                 (user.loggedIn) ?
                 <>
                 <li className="nav-item text-light"><strong>Logged in as:</strong></li>
-                <li className="nav-item text-light"><Link to="" id="current-user" className="nav-link active"><strong>{ user.email }</strong></Link></li>
+                <li className="nav-item text-light"><Link to="/user-profile" id="current-user" className="nav-link active"><strong>{ user.email }</strong></Link></li>
                 <li className="nav-item nav-link active mx-3"><button id="logoutBtn" onClick={logout}  className="btn btn-danger"><strong>Logout</strong></button></li>
                 </> :
                 <>
@@ -66,14 +74,24 @@ export default function App() {
         <Routes>
           <Route path="/" element={
             (user.loggedIn) ?
-            <>
-            <Home />
-            </> :
-            <>
+            <Home /> :
             <LoginView />
-            </>} />
-          <Route path="/search" element={<CharSearch />} />
-          <Route path="/profile" element={<CharProfile />} />
+          } />
+          <Route path="/user-profile" element={
+            (user.loggedIn) ?
+            <UserProfile /> :
+            <LoginView />
+          } />
+          <Route path="/char-profile" element={
+            (user.loggedIn) ?
+            <CharProfile /> :
+            <LoginView />
+          } />
+          <Route path="/search" element={
+            (user.loggedIn) ?
+            <CharSearch /> :
+            <LoginView />
+          } />
           {/* <Route path="/profile" element={
             (user.loggedIn) ?
             <>

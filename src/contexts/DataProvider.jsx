@@ -47,7 +47,7 @@ export const DataProvider = function (props) {
                 const charResponse = await fetch(`https://ffxivcollect.com/api/characters/${LID}?latest=true&ids=true/`)
                 const charData = await charResponse.json()
                 
-                console.log('CHAR loaded (1 call to ffxivc')
+                console.log('CHAR loaded (1 call to ffxivc)')
                 return {
                     id: charData.id,
                     name: charData.name,
@@ -86,34 +86,34 @@ export const DataProvider = function (props) {
     const getChars = async function() {
         if (user.loggedIn == true) {
             const q = query(collection(db, 'users', `${user.uid}`, 'characters'))
-        // const q = query(collection(db, 'users', `${user.uid}`, 'characters'), orderBy('selected', 'desc'))
-        const querySnap = await getDocs(q)
-        const charsDocs = []
+            // const q = query(collection(db, 'users', `${user.uid}`, 'characters'), orderBy('selected', 'desc'))
+            const querySnap = await getDocs(q)
+            const charsDocs = []
 
-        querySnap.forEach(async (doc) => {
-            try{
-                const avatar = await getCharAvatar(doc.data().lodestoneId)
-                if (doc.data().selected) {
-                    const charDoc = {
+            querySnap.forEach(async (doc) => {
+                try{
+                    const avatar = await getCharAvatar(doc.data().lodestoneId)
+                    if (doc.data().selected) {
+                        const charDoc = {
+                            id: doc.id,
+                            avatarUrl: avatar,
+                            ...doc.data()
+                        }
+                        setChar(charDoc)
+                    }
+                    charsDocs.push({
                         id: doc.id,
                         avatarUrl: avatar,
                         ...doc.data()
-                    }
-                    setChar(charDoc)
-                }
-                charsDocs.push({
-                    id: doc.id,
-                    avatarUrl: avatar,
-                    ...doc.data()
-                })
-                setChars(charsDocs)
+                    })
+                    setChars(charsDocs)
 
-                console.log(`AVATAR loaded (1 call to xivapi)`)
-            } catch (err) {
-                console.log('ERROR! ERROR! ERROR!')
-                console.log(err)
-            }
-        })
+                    console.log(`AVATAR loaded (1 call to xivapi)`)
+                } catch (err) {
+                    console.log('ERROR! ERROR! ERROR!')
+                    console.log(err)
+                }
+            })
         }
     }
 
@@ -180,6 +180,13 @@ export const DataProvider = function (props) {
 
         getChars()
     }
+
+    useEffect(() => {
+        if (user.loggedIn == true) {
+            getChars()
+        }
+
+    }, [user])
 
     useEffect(() => {
         loadCharInfo()

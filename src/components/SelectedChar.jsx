@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { useContext } from "react"
+import { useEffect, useContext } from "react"
 import { DataContext } from "../contexts/DataProvider"
 
 export default function SelectedChar() {
@@ -24,7 +24,7 @@ export default function SelectedChar() {
                 <hr className="mx-2"/>
                 <div className="row justify-content-center">
                     <div className="col-10">
-                        <Link to={ '/profile' } className="col-12 btn btn-info text-white">View Profile</Link>
+                        <Link to='/char-profile' className="col-12 btn btn-info text-white">View Profile</Link>
                     </div>
                 </div>
             </div>
