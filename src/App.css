@@ -104,14 +104,14 @@ html, main {
     border-radius: 10px;
   }
 
-  #achievements-card, #mounts-card, #minions-card, #relic-w-card, #relic-a-card, #relic-t-card {
+  #achievements-card, #mounts-card, #minions-card, #relic-card, #mount-single {
     text-decoration: none;
     color: black;
     transition-duration: 200ms;
     transition-property: background-color;
   }
 
-  #achievements-card:hover, #mounts-card:hover, #minions-card:hover, #relic-w-card:hover, #relic-a-card:hover, #relic-t-card:hover {
+  #achievements-card:hover, #mounts-card:hover, #minions-card:hover, #relic-card:hover, #mount-single:hover {
     transition-duration: 200ms;
     transition-property: background-color;
     background-color: goldenrod;

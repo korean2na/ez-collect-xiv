@@ -105,18 +105,18 @@ export default function CharProfile() {
                                         </div>
                                         <div className="row">
                                             <div className="col-4">
-                                                <a id="relic-w-card" href="https://ffxivcollect.com/relics/weapons" target="_blank" className="card py-3 shadow rounded">
+                                                <a id="relic-card" href="https://ffxivcollect.com/relics/weapons" target="_blank" className="card py-3 shadow rounded">
                                                     <p className="mb-0"><strong>Relic Weapons</strong><hr className="mx-2"/>{charInfo.relics.weapons.count} of {charInfo.relics.weapons.total}<br/><br/>({percent(charInfo.relics.weapons.count, charInfo.relics.weapons.total)}%)</p>
                                                 </a>
                                             </div>
                                             <div className="col-4">
-                                                <a id="relic-a-card" href="https://ffxivcollect.com/relics/armor" target="_blank" className="card py-3 shadow rounded">
+                                                <a id="relic-card" href="https://ffxivcollect.com/relics/armor" target="_blank" className="card py-3 shadow rounded">
                                                     <p className="mb-0"><strong>Relic Armor Pieces</strong><hr className="mx-2"/>{charInfo.relics.armor.count} of {charInfo.relics.armor.total}<br/><br/>({percent(charInfo.relics.armor.count, charInfo.relics.armor.total)}%)</p>
                                                 </a>
                                             </div>
                                             
                                             <div className="col-4">
-                                                <a id="relic-t-card" href="https://ffxivcollect.com/relics/tools" target="_blank" className="card py-3 shadow rounded">
+                                                <a id="relic-card" href="https://ffxivcollect.com/relics/tools" target="_blank" className="card py-3 shadow rounded">
                                                     <p className="mb-0"><strong>Relic Tools</strong><hr className="mx-2"/>{charInfo.relics.tools.count} of {charInfo.relics.tools.total}<br/><br/>({percent(charInfo.relics.tools.count, charInfo.relics.tools.total)}%)</p>
                                                 </a>
                                             </div>

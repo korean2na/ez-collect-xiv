@@ -10,6 +10,12 @@ export const DataProvider = function (props) {
     const [chars, setChars] = useState([])
     const [char, setChar] = useState({})
     const [charInfo, setCharInfo] = useState({})
+    const [ownedAchievements, setOwnedAchievements] = useState([])
+    const [ownedMounts, setOwnedMounts] = useState([])
+    const [ownedMinions, setOwnedMinions] = useState([])
+    const [achievementsList, setAchievementsList] = useState([])
+    const [mountsList, setMountsList] = useState([])
+    const [minionsList, setMinionsList] = useState([])
 
     const searchErrorTemplate = `
         <div class="card col-4 py-3 gap-1 shadow-lg rounded">
@@ -121,6 +127,9 @@ export const DataProvider = function (props) {
         if (user.loggedIn == true) {
             const charInfo = await getCharInfo(char.lodestoneId)
             setCharInfo(charInfo)
+            setOwnedAchievements(charInfo.achievements.ids)
+            setOwnedMounts(charInfo.mounts.ids)
+            setOwnedMinions(charInfo.minions.ids)
         }
     }
 
@@ -181,6 +190,42 @@ export const DataProvider = function (props) {
         getChars()
     }
 
+    async function getAchievements() {
+        try {
+            const achievementsResponse = await fetch('https://ffxivcollect.com/api/achievements')
+            const achievementsData = await achievementsResponse.json()
+
+            setAchievementsList(achievementsData.results)
+        } catch (err) {
+            console.log('ERROR! ERROR! ERROR!')
+            console.log(err)
+        }
+    }
+
+    async function getMounts() {
+        try {
+            const mountsResponse = await fetch('https://ffxivcollect.com/api/mounts')
+            const mountsData = await mountsResponse.json()
+
+            setMountsList(mountsData.results)
+        } catch (err) {
+            console.log('ERROR! ERROR! ERROR!')
+            console.log(err)
+        }
+    }
+
+    async function getMinions() {
+        try {
+            const minionsResponse = await fetch('https://ffxivcollect.com/api/minions')
+            const minionsData = await minionsResponse.json()
+
+            setMinionsList(minionsData.results)
+        } catch (err) {
+            console.log('ERROR! ERROR! ERROR!')
+            console.log(err)
+        }
+    }
+
     useEffect(() => {
         if (user.loggedIn == true) {
             getChars()
@@ -198,6 +243,9 @@ export const DataProvider = function (props) {
         chars,
         char,
         charInfo,
+        ownedAchievements,
+        ownedMounts,
+        ownedMinions,
         toTitleCase,
         getChars,
         checkFFXIVC,
@@ -206,7 +254,13 @@ export const DataProvider = function (props) {
         hideChar,
         unhideChar,
         addChar,
-        removeChar
+        removeChar,
+        getAchievements,
+        getMounts,
+        getMinions,
+        achievementsList,
+        mountsList,
+        minionsList
     }
 
     return (

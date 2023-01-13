@@ -1,25 +1,10 @@
 import { useState, useContext, useEffect } from "react";
 import { DataContext } from "../contexts/DataProvider";
-import { SingleMount } from "../components/SingleMount";
+import SingleMount from "../components/SingleMount";
 
 export default function Mounts() {
-    const { char, chars, charInfo, getChars } = useContext(DataContext)
-    const [mountsList, setMountsList] = useState([])
-    const [ownedMounts, setOwnedMounts] = useState([])
-
-    async function getMounts() {
-        try {
-            const mountsResponse = await fetch('https://ffxivcollect.com/api/mounts')
-            const mountsData = await mountsResponse.json()
-
-            setMountsList(mountsData.results)
-            setOwnedMounts(charInfo.mounts.ids)
-        } catch (err) {
-            console.log('ERROR! ERROR! ERROR!')
-            console.log(err)
-        }
-    }
-
+    const { charInfo, getChars, getMounts, mountsList } = useContext(DataContext)
+    
     useEffect(() => {
         if (charInfo == null) {
             getChars()
@@ -28,8 +13,6 @@ export default function Mounts() {
         getMounts()
 
     }, [])
-
-    
 
     return (
         <div id="Mounts">
@@ -58,28 +41,7 @@ export default function Mounts() {
                                 </div>
                             </div>
                         </div>
-                        {/* <SingleMount /> */}
-                        <div className="row justify-content-center">
-                            <div className="card col-10 text-center py-2 mb-3 shadow-lg rounded">
-                                <div className="row justify-content-evenly align-items-center">
-                                    <div className="col-4 text-start ps-0">
-                                        <p className="mb-0"><img id='avatar' src={ mountsList[0].icon } alt='' height='40' width='40' className='me-3'/>{ mountsList[0].name }</p>
-                                    </div>
-                                    <div className="col-4 text-start me-4">
-                                        <p className="mb-0">{ mountsList[0].sources[0].text }</p>
-                                    </div>
-                                    <div className="col-1">
-                                        <p className="mb-0 fs-3">&#10004;</p>
-                                    </div>
-                                    <div className="col-1">
-                                        <p className="mb-0">{ mountsList[0].owned }</p>
-                                    </div>
-                                    <div className="col-1">
-                                        <p className="mb-0">{ mountsList[0].patch }</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        { mountsList.map(mount => <SingleMount key={mount.id} mount={mount}/>) }
                     </>
                 }
             </div>
