@@ -117,6 +117,10 @@ html, main {
     opacity: 0.8;
   }
 
+  #lodestone {
+    text-decoration: none;
+  }
+
   #achievements-card, #mounts-card, #minions-card, #relic-card, #mount-single, #ach-single, #minion-single {
     text-decoration: none;
     color: black;

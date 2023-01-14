@@ -77,7 +77,15 @@ export default function CharProfile() {
 														<p>Global Rank: #{charInfo.rankings.achievements.global}</p>
 													</Link>
 												</> :
-												<></>
+												<>
+													<div to="/achievements" className="col-10 card py-3 me-4 shadow rounded">
+														<h4 className="mb-0">Achievements</h4>
+														<hr className="mx-2" />
+														<p>Achievements for this character have been set to private by their owner.</p>
+														<p>If you are the owner of this character, you can change that setting on the Lodestone site.</p>
+														<a id="lodestone" href="https://na.finalfantasyxiv.com/lodestone/my/setting/account/">Go to the Lodestone</a>
+													</div>
+												</>
 										}
 									</div>
 								</div>
