@@ -42,10 +42,20 @@ export default function CharProfile() {
 				<>
 					<div className="row justify-content-center">
 						<div className="card col-9 text-center pt-2 pb-4 mb-5 shadow-lg rounded">
-							<h5 className="text-end text-black text-opacity-50 mx-5">Selected Character</h5><hr className="mx-2 mt-0" />
+							<div className="row align-items-center justify-content-between pt-1 pb-3">
+								<div className="col-6 ps-5">
+									<div className="row justify-content-start">
+										<button id="logoutBtn" onClick=""  className="btn btn-primary col-5"><strong>Refresh Character</strong></button>
+									</div>
+								</div>
+								<div className="col-6">
+									<h5 className="text-end text-black text-opacity-50 pe-4 mb-0">Selected Character</h5>
+								</div>
+							</div>
+							<hr className="mx-2 mt-0"/>
 							<div className="row align-items-center">
 								<div className="col-8 text-start">
-									<h4 className="mb-0 ms-5 ps-3"><img id='avatar' src={char.avatarUrl} alt='' height='75' width='75' className='me-4' /> <strong>{char.charName}</strong></h4>
+									<h4 className="mb-0 ms-5 ps-3"><img id='avatar' src={char.avatarUrl} alt='' height='75' width='75' className='me-4'/> <strong>{char.charName}</strong></h4>
 								</div>
 								<div className="col-3 text-end ps-0 pe-0">
 									<p className="text-black text-opacity-50 mb-0">Lodestone ID:</p>
@@ -55,21 +65,21 @@ export default function CharProfile() {
 									<p className="mb-0">{char.server}</p>
 								</div>
 							</div>
-							<hr className="mx-2 pb-2" />
-							<div className="row justify-content-center">
+							<hr className="mx-2 pb-2"/>
+							<div className="row justify-content-center gap-5">
 								<div className="col-4 px-0">
 									<div className="row mb-5">
 										<div id="portrait-box" className='ms-4 px-0 shadow'>
 											<a href={charInfo.portrait} target="_blank" rel="noopener noreferrer"><img id="portrait" src={charInfo.portrait} alt='character portrait'/></a>
 										</div>
 									</div>
-									<div className="row justify-content-center">
+									<div className="row justify-content-center pt-5">
 										{
 											(charInfo.achievements.public == true) ?
 												<>
 													<Link id="achievements-card" to="/achievements" className="col-10 card py-3 me-4 shadow rounded">
 														<h4 className="mb-0">Achievements</h4>
-														<hr className="mx-2" />
+														<hr className="mx-2"/>
 														<p>{charInfo.achievements.count} of {charInfo.achievements.total} completed &nbsp; ({percent(charInfo.achievements.count, charInfo.achievements.total)}%)</p>
 														<p>{charInfo.achievements.points} of {charInfo.achievements.points_total} points earned &nbsp; ({percent(charInfo.achievements.points, charInfo.achievements.points_total)}%)</p>
 														<p>{charInfo.server} Rank: #{charInfo.rankings.achievements.server}</p>
@@ -80,7 +90,7 @@ export default function CharProfile() {
 												<>
 													<div to="/achievements" className="col-10 card py-3 me-4 shadow rounded">
 														<h4 className="mb-0">Achievements</h4>
-														<hr className="mx-2" />
+														<hr className="mx-2"/>
 														<p>Achievements for this character have been set to private by their owner.</p>
 														<p>If you are the owner of this character, you can change that setting on the Lodestone site.</p>
 														<a id="lodestone" href="https://na.finalfantasyxiv.com/lodestone/my/setting/account/">Go to the Lodestone</a>
@@ -89,11 +99,11 @@ export default function CharProfile() {
 										}
 									</div>
 								</div>
-								<div className="col-6 ps-3 me-3">
+								<div className="col-4 ps-3 me-3">
 									<Link id="mounts-card" to="/mounts" className="row card py-3 mb-4 shadow rounded">
 										<div className="col">
 											<h4 className="mb-0">Mounts</h4>
-											<hr className="mx-2" />
+											<hr className="mx-2"/>
 											<p>{charInfo.mounts.count} of {charInfo.mounts.total} collected &nbsp; ({percent(charInfo.mounts.count, charInfo.mounts.total)}%)</p>
 											{
 												(charInfo.rankings.mounts.server != null) ?
@@ -128,23 +138,28 @@ export default function CharProfile() {
 											<h4 className="mb-3">Relics</h4>
 											<hr className="px-2"/>
 										</div>
-										<div className="row justify-content-evenly">
-											<div className="col-4">
+										<div className="row justify-content-center mb-3">
+											<div className="col">
 												<a id="relic-card" href="https://ffxivcollect.com/relics/weapons" target="_blank" className="card py-3 shadow rounded">
-													<p className="mb-0"><strong>Relic Weapons</strong><hr className="mx-2"/>{charInfo.relics.weapons.count} of {charInfo.relics.weapons.total}<br/><br/>({percent(charInfo.relics.weapons.count, charInfo.relics.weapons.total)}%)</p>
-												</a>
-											</div>
-											<div className="col-4">
-												<a id="relic-card" href="https://ffxivcollect.com/relics/armor" target="_blank" className="card py-3 shadow rounded">
-													<p className="mb-0"><strong>Relic Armor Pieces</strong><hr className="mx-2"/>{charInfo.relics.armor.count} of {charInfo.relics.armor.total}<br/><br/>({percent(charInfo.relics.armor.count, charInfo.relics.armor.total)}%)</p>
-												</a>
-											</div>
-											<div className="col-4">
-												<a id="relic-card" href="https://ffxivcollect.com/relics/tools" target="_blank" className="card py-3 shadow rounded">
-													<p className="mb-0"><strong>Relic Tools</strong><hr className="mx-2"/>{charInfo.relics.tools.count} of {charInfo.relics.tools.total}<br/><br/>({percent(charInfo.relics.tools.count, charInfo.relics.tools.total)}%)</p>
+													<p className="mb-0">Relic Weapons: &nbsp; {charInfo.relics.weapons.count} of {charInfo.relics.weapons.total} &nbsp; ({percent(charInfo.relics.weapons.count, charInfo.relics.weapons.total)}%)</p>
 												</a>
 											</div>
 										</div>
+										<div className="row justify-content-center mb-3">
+											<div className="col">
+												<a id="relic-card" href="https://ffxivcollect.com/relics/armor" target="_blank" className="card py-3 shadow rounded">
+													<p className="mb-0">Relic Armor Pieces: &nbsp; {charInfo.relics.armor.count} of {charInfo.relics.armor.total} &nbsp; ({percent(charInfo.relics.armor.count, charInfo.relics.armor.total)}%)</p>
+												</a>
+											</div>
+										</div>
+										<div className="row justify-content-center mb-3">
+											<div className="col">
+												<a id="relic-card" href="https://ffxivcollect.com/relics/tools" target="_blank" className="card py-3 shadow rounded">
+													<p className="mb-0">Relic Tools: &nbsp; {charInfo.relics.tools.count} of {charInfo.relics.tools.total} &nbsp; ({percent(charInfo.relics.tools.count, charInfo.relics.tools.total)}%)</p>
+												</a>
+											</div>
+										</div>
+										
 									</div>
 								</div>
 							</div>
