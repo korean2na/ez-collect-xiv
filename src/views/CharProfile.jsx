@@ -4,7 +4,7 @@ import { DataContext } from "../contexts/DataProvider";
 import SingleChar from "../components/SingleChar";
 
 export default function CharProfile() {
-	const { loading, char, chars, charInfo, getChars } = useContext(DataContext)
+	const { loading, char, chars, charInfo, getChars, loadCharInfo } = useContext(DataContext)
 
 	function percent(count, total) {
 		const result = count/total * 100
@@ -45,7 +45,7 @@ export default function CharProfile() {
 							<div className="row align-items-center justify-content-between pt-1 pb-3">
 								<div className="col-6 ps-5">
 									<div className="row justify-content-start">
-										<button id="logoutBtn" onClick=""  className="btn btn-primary col-5"><strong>Refresh Character</strong></button>
+										<button id="logoutBtn" onClick={ loadCharInfo }  className="btn btn-primary col-5"><strong>Refresh Character</strong></button>
 									</div>
 								</div>
 								<div className="col-6">
@@ -140,21 +140,21 @@ export default function CharProfile() {
 										</div>
 										<div className="row justify-content-center mb-3">
 											<div className="col">
-												<a id="relic-card" href="https://ffxivcollect.com/relics/weapons" target="_blank" className="card py-3 shadow rounded">
+												<a id="relic-card" href="https://ffxivcollect.com/relics/weapons" target="_blank" className="card p-3 shadow rounded">
 													<p className="mb-0">Relic Weapons: &nbsp; {charInfo.relics.weapons.count} of {charInfo.relics.weapons.total} &nbsp; ({percent(charInfo.relics.weapons.count, charInfo.relics.weapons.total)}%)</p>
 												</a>
 											</div>
 										</div>
 										<div className="row justify-content-center mb-3">
 											<div className="col">
-												<a id="relic-card" href="https://ffxivcollect.com/relics/armor" target="_blank" className="card py-3 shadow rounded">
+												<a id="relic-card" href="https://ffxivcollect.com/relics/armor" target="_blank" className="card p-3 shadow rounded">
 													<p className="mb-0">Relic Armor Pieces: &nbsp; {charInfo.relics.armor.count} of {charInfo.relics.armor.total} &nbsp; ({percent(charInfo.relics.armor.count, charInfo.relics.armor.total)}%)</p>
 												</a>
 											</div>
 										</div>
 										<div className="row justify-content-center mb-3">
 											<div className="col">
-												<a id="relic-card" href="https://ffxivcollect.com/relics/tools" target="_blank" className="card py-3 shadow rounded">
+												<a id="relic-card" href="https://ffxivcollect.com/relics/tools" target="_blank" className="card p-3 shadow rounded">
 													<p className="mb-0">Relic Tools: &nbsp; {charInfo.relics.tools.count} of {charInfo.relics.tools.total} &nbsp; ({percent(charInfo.relics.tools.count, charInfo.relics.tools.total)}%)</p>
 												</a>
 											</div>
