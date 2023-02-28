@@ -16,8 +16,6 @@ import CreateAlert from './components/CreateAlert';
 export default function App() {
   const { user, googleLogin, logout } = useContext(AuthContext)
 
-  const alertBar = document.getElementById('liveAlertBar')
-
   useEffect(() => {
     if (user.loggedIn == true) {
       CreateAlert(`Successfully logged in. Welcome back, ${user.displayName}!`, 'success')
