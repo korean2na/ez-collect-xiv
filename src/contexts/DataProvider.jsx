@@ -166,26 +166,10 @@ export const DataProvider = function (props) {
 
     async function unhideChar(id) {
         const charRef = doc(db, 'users', `${user.uid}`, 'characters', `${id}`)
-        const q = query(collection(db, 'users', `${user.uid}`, 'characters'), where('hidden', '==', 'true'))
-        const querySnap = await getDocs(q)
-        let counter = 0
-
-        querySnap.forEach((doc) => {
-            if (doc.data().selected) {
-                counter += 1
-            }
+        
+        await updateDoc(charRef, {
+            hidden: false
         })
-
-        if (counter == 0) {
-            await updateDoc(charRef, {
-                hidden: false,
-                selected: true
-            })
-        } else {
-            await updateDoc(charRef, {
-                hidden: false
-            })
-        }
     }
 
     async function addChar(LID, charName, server) {

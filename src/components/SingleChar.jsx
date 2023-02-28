@@ -1,49 +1,36 @@
 import { useContext } from "react"
 import { DataContext } from "../contexts/DataProvider"
+import CreateAlert from './CreateAlert';
 
 export default function SingleChar(props) {
     const { selectChar, getChars, loadCharInfo, hideChar, unhideChar, removeChar } = useContext(DataContext)
-
-    const alertBar = document.getElementById('liveAlertBar')
-
-    const alert = (message, type) => {
-      const wrapper = document.createElement('div')
-      wrapper.innerHTML = [
-        `<div class="alert alert-${type} alert-dismissible fade show" role="alert">`,
-        `   <div>${message}</div>`,
-        '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-        '</div>'
-      ].join('')
-  
-      alertBar.append(wrapper)
-    }
 
     async function handleSelectChar(id) {
         window.scrollTo(0, 0)
         await selectChar(id)
         await getChars()
-        alert('Characted selected successfully.', 'success')
+        CreateAlert('Characted selected successfully.', 'success')
     }
 
     async function handleHideChar(id) {
         window.scrollTo(0, 0)
         await hideChar(id)
         await getChars()
-        alert('Characted hidden successfully.', 'secondary')
+        CreateAlert('Characted hidden successfully.', 'secondary')
     }
 
     async function handleUnhideChar(id) {
         window.scrollTo(0, 0)
         await unhideChar(id)
         await getChars()
-        alert('Characted unhidden successfully.', 'success')
+        CreateAlert('Characted unhidden successfully.', 'success')
     }
 
     async function handleRemoveChar(id) {
         window.scrollTo(0, 0)
         await removeChar(id)
         await getChars()
-        alert('Characted removed successfully.', 'secondary')
+        CreateAlert('Characted removed successfully.', 'secondary')
     }
 
     if (!props.singleChar) {

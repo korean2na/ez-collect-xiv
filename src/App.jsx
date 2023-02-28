@@ -1,6 +1,7 @@
 import './App.css';
 import { useState, useContext, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { Alert } from 'bootstrap';
 import { AuthContext } from './contexts/AuthProvider';
 import Home from './views/Home';
 import LoginView from './views/LoginView';
@@ -10,29 +11,42 @@ import CharProfile from './views/CharProfile';
 import Achievements from './views/Achievements';
 import Mounts from './views/Mounts';
 import Minions from './views/Minions';
+import CreateAlert from './components/CreateAlert';
 
 export default function App() {
   const { user, googleLogin, logout } = useContext(AuthContext)
 
+  const alertBar = document.getElementById('liveAlertBar')
+
+  const createAlert = (message, type) => {
+    const wrapper = document.createElement('div')
+    wrapper.innerHTML = [
+      `<div class="alert alert-${type} alert-dismissible fade show mx-5 ps-4" role="alert">`,
+      ` <div class="">${message}</div>`,
+      ' <button type="button" class="btn-close pe-4" data-bs-dismiss="alert" aria-label="Close"></button>',
+      '</div>'
+    ].join('')
+
+    alertBar.append(wrapper)
+
+    var bsAlert = Alert.getOrCreateInstance('.alert')
+    
+    // alt for clearing all
+    // var alertList = document.querySelectorAll('.alert')
+    // alertList.forEach(function (alert) {new Alert(alert)})
+    // var alertQs = document.querySelector('.alert')
+    // var bsAlert = Alert.getInstance(alertQs)
+    
+    setTimeout(() => {
+      bsAlert.close()
+    }, 5000);
+  }
+
   useEffect(() => {
-    const alertBar = document.getElementById('liveAlertBar')
-
-    const alert = (message, type) => {
-      const wrapper = document.createElement('div')
-      wrapper.innerHTML = [
-        `<div class="alert alert-${type} alert-dismissible fade show" role="alert">`,
-        `   <div>${message}</div>`,
-        '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-        '</div>'
-      ].join('')
-  
-      alertBar.append(wrapper)
-    }
-
     if (user.loggedIn == true) {
-      alert(`Successfully logged in. Welcome back, ${user.displayName}!`, 'success')
+      CreateAlert(`Successfully logged in. Welcome back, ${user.displayName}!`, 'success')
     } else if (user.loggedIn == false) {
-      alert('Successfully logged out.', 'dark')
+      CreateAlert('Successfully logged out.', 'dark')
     }
   }, [user.loggedIn])
 
