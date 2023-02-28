@@ -14,6 +14,12 @@ export default function CreateAlert(message, type) {
     alertBar.append(wrapper)
     
     var bsAlert = Alert.getOrCreateInstance('.alert')
+
+    // alt for clearing all
+    // var alertList = document.querySelectorAll('.alert')
+    // alertList.forEach(function (alert) {new Alert(alert)})
+    // var alertQs = document.querySelector('.alert')
+    // var bsAlert = Alert.getInstance(alertQs)
     
     setTimeout(() => {
       bsAlert.close()

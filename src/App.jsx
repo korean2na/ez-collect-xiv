@@ -18,30 +18,6 @@ export default function App() {
 
   const alertBar = document.getElementById('liveAlertBar')
 
-  const createAlert = (message, type) => {
-    const wrapper = document.createElement('div')
-    wrapper.innerHTML = [
-      `<div class="alert alert-${type} alert-dismissible fade show mx-5 ps-4" role="alert">`,
-      ` <div class="">${message}</div>`,
-      ' <button type="button" class="btn-close pe-4" data-bs-dismiss="alert" aria-label="Close"></button>',
-      '</div>'
-    ].join('')
-
-    alertBar.append(wrapper)
-
-    var bsAlert = Alert.getOrCreateInstance('.alert')
-    
-    // alt for clearing all
-    // var alertList = document.querySelectorAll('.alert')
-    // alertList.forEach(function (alert) {new Alert(alert)})
-    // var alertQs = document.querySelector('.alert')
-    // var bsAlert = Alert.getInstance(alertQs)
-    
-    setTimeout(() => {
-      bsAlert.close()
-    }, 5000);
-  }
-
   useEffect(() => {
     if (user.loggedIn == true) {
       CreateAlert(`Successfully logged in. Welcome back, ${user.displayName}!`, 'success')
