@@ -92,13 +92,17 @@ export default function SingleResult(props) {
                 {
                     (user.loggedIn == false) ?
                         <>
-                            <p>You are not logged in</p>
+                            <div className="row justify-content-center">
+                                <div className="col-10">
+                                    <Link to={ '/selected-char' } target="_blank" className="col-12 btn btn-warning">View Profile</Link>
+                                </div>
+                            </div>
                         </> :
                     (status === 'SELECTED') ?
                         <>
                             <div className="row justify-content-center">
                                 <div className="col-10">
-                                    <Link to={ '/char-profile' } className="col-12 btn btn-warning">View Profile</Link>
+                                    <Link to={ '/selected-char' } target="_blank" className="col-12 btn btn-warning">View Profile</Link>
                                 </div>
                             </div>
                         </> :

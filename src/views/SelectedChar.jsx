@@ -159,7 +159,7 @@ export default function CharProfile() {
 													</div>
 												</> :
 												<>
-													<p>Relics information for this character has been set to private by their owner.</p>
+													<p>Relics for this character have been set to private by their owner.</p>
 													<p>If you are the owner of this character, you can change the setting on the Lodestone site.</p>
 													<a id="lodestone" href="https://na.finalfantasyxiv.com/lodestone/my/setting/account/">Go to the Lodestone</a>
 												</>

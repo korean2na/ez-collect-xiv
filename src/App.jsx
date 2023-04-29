@@ -7,7 +7,7 @@ import Home from './views/Home';
 import LoginView from './views/LoginView';
 import UserProfile from './views/UserProfile';
 import CharSearch from './views/CharSearch';
-import CharProfile from './views/CharProfile';
+import CharProfile from './views/SelectedChar';
 import Achievements from './views/Achievements';
 import Mounts from './views/Mounts';
 import Minions from './views/Minions';
@@ -34,7 +34,7 @@ export default function App() {
               {
                 (user.loggedIn) ?
                 <>
-                  <li className="nav-item"><Link to="/char-profile" className="nav-link active link-light"><strong>Character Profile</strong></Link></li>
+                  <li className="nav-item"><Link to="/selected-char" className="nav-link active link-light"><strong>Selected Character</strong></Link></li>
                 </> :
                 <></>
               }
@@ -75,7 +75,7 @@ export default function App() {
             <UserProfile /> :
             <LoginView />
           } />
-          <Route path="/char-profile" element={
+          <Route path="/selected-char" element={
             (user.loggedIn) ?
             <CharProfile /> :
             <LoginView />

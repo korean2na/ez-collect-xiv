@@ -35,10 +35,10 @@ export const DataProvider = function (props) {
         try {
             const checkResponse = await fetch(`https://ffxivcollect.com/api/characters/${LID}/`)
             if (checkResponse.status === 200) {
-                console.log('CHECK (1 call to xivapi)')
+                console.log('CHECK (1 call to ffxivc)')
                 return true
             } else {
-                console.log('CHECK (1 call to xivapi)')
+                console.log('CHECK (1 call to ffxivc)')
                 return false
             }
 
@@ -46,6 +46,10 @@ export const DataProvider = function (props) {
             console.log('ERROR! ERROR! ERROR!')
             console.log(err)
         }
+    }
+
+    async function updateCharName() {
+        
     }
 
     const getCharInfo = async function(LID) {
@@ -77,17 +81,15 @@ export const DataProvider = function (props) {
     }
 
     const getCharAvatar = async function(LID) {
-        if (user.loggedIn == true) {
-            try{
-                const charResponse = await fetch(`https://xivapi.com/character/${LID}`)
-                const charData = await charResponse.json()
-    
-                return charData.Character.Avatar
-            } catch (err) {
-                console.log('ERROR! ERROR! ERROR!')
-                console.log(err)
-            }
-        }  
+        try{
+            const charResponse = await fetch(`https://xivapi.com/character/${LID}`)
+            const charData = await charResponse.json()
+
+            return charData.Character.Avatar
+        } catch (err) {
+            console.log('ERROR! ERROR! ERROR!')
+            console.log(err)
+        }
     }
     
     const getChars = async function() {
@@ -107,12 +109,14 @@ export const DataProvider = function (props) {
                             ...doc.data()
                         }
                         setChar(charDoc)
+                    } else {
+                        charsDocs.push({
+                            id: doc.id,
+                            avatarUrl: avatar,
+                            ...doc.data()
+                        })
                     }
-                    charsDocs.push({
-                        id: doc.id,
-                        avatarUrl: avatar,
-                        ...doc.data()
-                    })
+                    
                     setChars(charsDocs)
 
                     console.log(`AVATAR loaded (1 call to xivapi)`)
@@ -211,10 +215,6 @@ export const DataProvider = function (props) {
             console.log('ERROR! ERROR! ERROR!')
             console.log(err)
         }
-    }
-
-    async function updateCharName() {
-        
     }
 
     async function getMounts() {
