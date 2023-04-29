@@ -7,7 +7,7 @@ export const DataContext = createContext()
 export const DataProvider = function (props) {
     const db = getFirestore()
     const { user } = useContext(AuthContext)
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [chars, setChars] = useState([])
     const [char, setChar] = useState({})
     const [charInfo, setCharInfo] = useState({})
@@ -92,7 +92,6 @@ export const DataProvider = function (props) {
     
     const getChars = async function() {
         if (user.loggedIn == true) {
-            setLoading(true)
             const q = query(collection(db, 'users', `${user.uid}`, 'characters'))
             // const q = query(collection(db, 'users', `${user.uid}`, 'characters'), orderBy('selected', 'desc'))
             const querySnap = await getDocs(q)
@@ -212,6 +211,10 @@ export const DataProvider = function (props) {
             console.log('ERROR! ERROR! ERROR!')
             console.log(err)
         }
+    }
+
+    async function updateCharName() {
+        
     }
 
     async function getMounts() {

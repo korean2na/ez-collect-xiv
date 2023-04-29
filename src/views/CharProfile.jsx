@@ -92,7 +92,7 @@ export default function CharProfile() {
 														<h4 className="mb-0">Achievements</h4>
 														<hr className="mx-2"/>
 														<p>Achievements for this character have been set to private by their owner.</p>
-														<p>If you are the owner of this character, you can change that setting on the Lodestone site.</p>
+														<p>If you are the owner of this character, you can change the setting on the Lodestone site.</p>
 														<a id="lodestone" href="https://na.finalfantasyxiv.com/lodestone/my/setting/account/">Go to the Lodestone</a>
 													</div>
 												</>
@@ -133,31 +133,37 @@ export default function CharProfile() {
 											}	
 										</div>
 									</Link>
-									<div className="row justify-content-center card ps-4 py-3 shadow rounded">
-										<div className="row">
-											<h4 className="mb-3">Relics</h4>
-											<hr className="px-2"/>
-										</div>
-										<div className="row justify-content-center mb-3">
-											<div className="col">
-												<a id="relic-card" href="https://ffxivcollect.com/relics/weapons" target="_blank" className="card p-3 shadow rounded">
-													<p className="mb-0">Relic Weapons: &nbsp; {charInfo.relics.weapons.count} of {charInfo.relics.weapons.total} &nbsp; ({percent(charInfo.relics.weapons.count, charInfo.relics.weapons.total)}%)</p>
-												</a>
+									<div className="row  card px-4 py-3 shadow rounded">
+										<div className="justify-content-center">
+											<div className="row">
+												<h4 className="mb-3 px-0">Relics</h4>
+												<hr className="px-2"/>
 											</div>
-										</div>
-										<div className="row justify-content-center mb-3">
-											<div className="col">
-												<a id="relic-card" href="https://ffxivcollect.com/relics/armor" target="_blank" className="card p-3 shadow rounded">
-													<p className="mb-0">Relic Armor Pieces: &nbsp; {charInfo.relics.armor.count} of {charInfo.relics.armor.total} &nbsp; ({percent(charInfo.relics.armor.count, charInfo.relics.armor.total)}%)</p>
-												</a>
-											</div>
-										</div>
-										<div className="row justify-content-center mb-3">
-											<div className="col">
-												<a id="relic-card" href="https://ffxivcollect.com/relics/tools" target="_blank" className="card p-3 shadow rounded">
-													<p className="mb-0">Relic Tools: &nbsp; {charInfo.relics.tools.count} of {charInfo.relics.tools.total} &nbsp; ({percent(charInfo.relics.tools.count, charInfo.relics.tools.total)}%)</p>
-												</a>
-											</div>
+											{
+												(charInfo.achievements.public == true) ?
+												<>
+													<div className="row mb-3">
+														<a id="relic-card" href="https://ffxivcollect.com/relics/weapons" target="_blank" className="card p-3 shadow rounded">
+															<p className="mb-0">Relic Weapons: &nbsp; {charInfo.relics.weapons.count} of {charInfo.relics.weapons.total} &nbsp; ({percent(charInfo.relics.weapons.count, charInfo.relics.weapons.total)}%)</p>
+														</a>
+													</div>
+													<div className="row mb-3">
+														<a id="relic-card" href="https://ffxivcollect.com/relics/armor" target="_blank" className="card p-3 shadow rounded">
+															<p className="mb-0">Relic Armor Pieces: &nbsp; {charInfo.relics.armor.count} of {charInfo.relics.armor.total} &nbsp; ({percent(charInfo.relics.armor.count, charInfo.relics.armor.total)}%)</p>
+														</a>
+													</div>
+													<div className="row justify-content-center mb-3">
+														<a id="relic-card" href="https://ffxivcollect.com/relics/tools" target="_blank" className="card p-3 shadow rounded">
+															<p className="mb-0">Relic Tools: &nbsp; {charInfo.relics.tools.count} of {charInfo.relics.tools.total} &nbsp; ({percent(charInfo.relics.tools.count, charInfo.relics.tools.total)}%)</p>
+														</a>
+													</div>
+												</> :
+												<>
+													<p>Relics information for this character have been set to private by their owner.</p>
+													<p>If you are the owner of this character, you can change the setting on the Lodestone site.</p>
+													<a id="lodestone" href="https://na.finalfantasyxiv.com/lodestone/my/setting/account/">Go to the Lodestone</a>
+												</>
+											}
 										</div>
 										
 									</div>

@@ -2,8 +2,10 @@ import { Link } from 'react-router-dom'
 import { useContext } from "react"
 import { DataContext } from "../contexts/DataProvider"
 import CreateAlert from './CreateAlert';
+import { AuthContext } from '../contexts/AuthProvider';
 
 export default function SingleResult(props) {
+    const { user } = useContext(AuthContext)
     const { char, chars, selectChar, getChars, loadCharInfo, hideChar, unhideChar, checkFFXIVC, addChar, removeChar } = useContext(DataContext)
 
     const filtered = chars.filter(n => n.lodestoneId == props.result['ID'])
@@ -67,7 +69,7 @@ export default function SingleResult(props) {
             <div id="liveAlertBar"></div>
             <div className="card col-6 text-center py-4 mb-5 shadow-lg rounded">
                 {
-                    (status === 'SELECTED') ?
+                    (user.loggedIn == true & status === 'SELECTED') ?
                     <>
                         <h5 className="text-end text-black text-opacity-50 mx-5">Currently Selected Character</h5>
                     </> :
@@ -88,11 +90,15 @@ export default function SingleResult(props) {
                 </div>
                 <hr className="mx-2"/>
                 {
+                    (user.loggedIn == false) ?
+                        <>
+                            <p>You are not logged in</p>
+                        </> :
                     (status === 'SELECTED') ?
                         <>
                             <div className="row justify-content-center">
                                 <div className="col-10">
-                                    <Link to={ '/profile' } className="col-12 btn btn-warning">View Profile</Link>
+                                    <Link to={ '/char-profile' } className="col-12 btn btn-warning">View Profile</Link>
                                 </div>
                             </div>
                         </> :

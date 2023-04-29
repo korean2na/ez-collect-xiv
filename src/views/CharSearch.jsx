@@ -127,9 +127,16 @@ export default function CharSearch() {
                             <label htmlFor="charName" className="form-label">Character Name</label>
                             <input name="charName" type="text" className="form-control" placeholder="(Character Name cannot be empty)"/>
                         </div>
-                        <div className="row justify-content-end">
-                            <button type="submit" className="col-3 btn btn-primary fs-4 me-4"><strong>Search</strong></button>
+                        <div className="row align-items-center">
+                            <div className="col-9">
+                                <p className="ms-3 pe-3 mb-0"><strong>NOTE:</strong> Some characters may not be viewable due to the owner's privacy settings on the Lodestone.</p>
+                            </div>
+                            <div className="col-3 d-flex justify-content-end">
+                                <button type="submit" className="btn btn-primary fs-4 me-3"><strong>Search</strong></button>
+                            </div>
+                            
                         </div>
+                        
                     </form>
                 </div>
 

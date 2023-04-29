@@ -35,10 +35,10 @@ export default function App() {
                 (user.loggedIn) ?
                 <>
                   <li className="nav-item"><Link to="/char-profile" className="nav-link active link-light"><strong>Character Profile</strong></Link></li>
-                  <li className="nav-item"><Link to="/search" className="nav-link active link-light"><strong>Search</strong></Link></li>
                 </> :
                 <></>
               }
+              <li className="nav-item"><Link to="/search" className="nav-link active link-light"><strong>Search</strong></Link></li>
             </ul>
             <ul id="right-nav" className="navbar-nav align-items-center">
               {
@@ -67,6 +67,9 @@ export default function App() {
             <Home /> :
             <LoginView />
           } />
+          <Route path="/search" element={
+            <CharSearch />
+          } />
           <Route path="/user-profile" element={
             (user.loggedIn) ?
             <UserProfile /> :
@@ -75,11 +78,6 @@ export default function App() {
           <Route path="/char-profile" element={
             (user.loggedIn) ?
             <CharProfile /> :
-            <LoginView />
-          } />
-          <Route path="/search" element={
-            (user.loggedIn) ?
-            <CharSearch /> :
             <LoginView />
           } />
           <Route path="/achievements" element={
