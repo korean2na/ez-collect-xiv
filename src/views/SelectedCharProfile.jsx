@@ -2,8 +2,10 @@ import { useContext, useEffect } from "react";
 import { Link } from 'react-router-dom'
 import { DataContext } from "../contexts/DataProvider";
 import SingleChar from "../components/SingleChar";
+import { AuthContext } from "../contexts/AuthProvider";
 
-export default function CharProfile() {
+export default function SelectedCharProfile() {
+	const { user } = useContext(AuthContext)
 	const { loading, char, chars, charInfo, getChars, loadCharInfo } = useContext(DataContext)
 
 	function percent(count, total) {
@@ -19,10 +21,14 @@ export default function CharProfile() {
 	}, [])
 
 	return (
-		<div id="CharProfile">
+		<div id="SelectedCharProfile">
 			{
 				(loading == true) ?
 				<p className='text-center text-white'>Loading...</p> :
+				(user.loggedIn = false) ?
+				<>
+				<p>Not logged in</p>
+				</> :
 				(charInfo.name == null) ?
 				<>
                 <div className="row justify-content-center">

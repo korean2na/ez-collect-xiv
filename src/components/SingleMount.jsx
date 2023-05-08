@@ -18,8 +18,8 @@ export default function SingleMount(props) {
                     </div>
                     <div className="col-1">
                         {
-                            (props.mount.id in ownedMounts) ?
-                            <p className="mb-0 fs-3">&#10004;</p> :
+                            (ownedMounts.includes(props.mount.id)) ?
+                            <p className="mb-0 fs-3">&#10004;</p>:
                             <p className="mb-0 fs-3"></p>
                         }
                     </div>

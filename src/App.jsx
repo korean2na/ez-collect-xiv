@@ -7,7 +7,7 @@ import Home from './views/Home';
 import LoginView from './views/LoginView';
 import UserProfile from './views/UserProfile';
 import CharSearch from './views/CharSearch';
-import CharProfile from './views/SelectedChar';
+import CharProfile from './views/SelectedCharProfile';
 import Achievements from './views/Achievements';
 import Mounts from './views/Mounts';
 import Minions from './views/Minions';
@@ -68,6 +68,9 @@ export default function App() {
             <LoginView />
           } />
           <Route path="/search" element={
+            <CharSearch />
+          } />
+          <Route path="/char-profile" element={
             <CharSearch />
           } />
           <Route path="/user-profile" element={

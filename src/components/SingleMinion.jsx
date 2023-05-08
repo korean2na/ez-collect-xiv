@@ -18,7 +18,7 @@ export default function SingleMinion(props) {
                     </div>
                     <div className="col-1">
                         {
-                            (props.minion.id in ownedMinions) ?
+                            (ownedMinions.includes(props.minion.id)) ?
                             <p className="mb-0 fs-3">&#10004;</p> :
                             <p className="mb-0 fs-3"></p>
                         }

@@ -141,7 +141,6 @@ export const DataProvider = function (props) {
             setOwnedMinions(charInfo.minions.ids)
             setLoading(false)
         }
-        
     }
 
     async function selectChar(id) {
