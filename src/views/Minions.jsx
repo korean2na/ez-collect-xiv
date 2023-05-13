@@ -3,11 +3,11 @@ import { DataContext } from "../contexts/DataProvider";
 import SingleMinion from "../components/SingleMinion";
 
 export default function Minions() {
-    const { charInfo, getChars, getMinions, minionsList } = useContext(DataContext)
+    const { selectedCharInfo, getChars, getMinions, minionsList } = useContext(DataContext)
     
     useEffect(() => {
         window.scrollTo(0, 0)
-        if (charInfo == null) {
+        if (selectedCharInfo == null) {
             getChars()
         }
 

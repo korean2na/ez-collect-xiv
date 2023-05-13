@@ -129,10 +129,11 @@ export default function CharSearch() {
                         </div>
                         <div className="row align-items-center">
                             <div className="col-9">
-                                <p className="ms-3 pe-3 mb-0"><strong>NOTE:</strong> Some characters may not be viewable due to the owner's privacy settings on the Lodestone.</p>
+                                <p className="ms-3 pe-3 mt-2">&#9830; Up to 50 search results will be displayed. If you don't see the character you're looking for, please refine your search criteria and try again.</p>
+                                <p className="ms-3 pe-3 mb-2">&#9830; Some characters may not be viewable due to the owner's privacy settings on the Lodestone.</p>
                             </div>
-                            <div className="col-3 d-flex justify-content-end">
-                                <button type="submit" className="btn btn-primary fs-4 me-3"><strong>Search</strong></button>
+                            <div className="col-3">
+                                <button type="submit" className="col-11 btn btn-primary"><strong className="fs-4">Search</strong></button>
                             </div>
                             
                         </div>

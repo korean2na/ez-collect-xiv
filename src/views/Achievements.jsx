@@ -3,11 +3,11 @@ import { DataContext } from "../contexts/DataProvider";
 import SingleAchievement from "../components/SingleAchievement";
 
 export default function Achievements() {
-    const { charInfo, getChars, getAchievements, achievementsList } = useContext(DataContext)
+    const { selectedCharInfo, getChars, getAchievements, achievementsList } = useContext(DataContext)
     
     useEffect(() => {
         window.scrollTo(0, 0)
-        if (charInfo == null) {
+        if (selectedCharInfo == null) {
             getChars()
         }
 

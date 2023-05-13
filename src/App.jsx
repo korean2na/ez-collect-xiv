@@ -7,7 +7,8 @@ import Home from './views/Home';
 import LoginView from './views/LoginView';
 import UserProfile from './views/UserProfile';
 import CharSearch from './views/CharSearch';
-import CharProfile from './views/SelectedCharProfile';
+import CharProfile from './views/CharProfile';
+import SelectedCharProfile from './views/SelectedCharProfile';
 import Achievements from './views/Achievements';
 import Mounts from './views/Mounts';
 import Minions from './views/Minions';
@@ -17,10 +18,11 @@ export default function App() {
   const { user, googleLogin, logout } = useContext(AuthContext)
 
   useEffect(() => {
-    if (user.loggedIn == true) {
+    if (user.loggedIn === true) {
       CreateAlert(`Successfully logged in. Welcome back, ${user.displayName}!`, 'success')
-    } else if (user.loggedIn == false) {
-      CreateAlert('Successfully logged out.', 'dark')
+    }
+    else if (user.loggedIn === false) {
+      CreateAlert('You are logged out. Please log in to track your collection(s).', 'dark')
     }
   }, [user.loggedIn])
 
@@ -54,7 +56,7 @@ export default function App() {
               }
               <li className="text-white text-end" id="titlehead">
                 <h2><strong>Eorzea Collect XIV</strong></h2>
-                <p>Powered by <a href="https://ffxivcollect.com/" target="_blank"><strong>FFXIV Collect</strong></a> and <a href="https://xivapi.com/" target="_blank"><strong>xivapi</strong></a></p>
+                <p>Powered by <a href="https://ffxivcollect.com/" target="_blank" rel="noreferrer"><strong>FFXIV Collect</strong></a> and <a href="https://xivapi.com/" target="_blank" rel="noreferrer"><strong>xivapi</strong></a></p>
               </li>
             </ul>
           </div>
@@ -70,9 +72,9 @@ export default function App() {
           <Route path="/search" element={
             <CharSearch />
           } />
-          <Route path="/char-profile" element={
-            <CharSearch />
-          } />
+          <Route path="/char-profile">
+            <Route path=":singleLID" element={<CharProfile />} />
+          </Route>
           <Route path="/user-profile" element={
             (user.loggedIn) ?
             <UserProfile /> :
@@ -80,7 +82,7 @@ export default function App() {
           } />
           <Route path="/selected-char" element={
             (user.loggedIn) ?
-            <CharProfile /> :
+            <SelectedCharProfile /> :
             <LoginView />
           } />
           <Route path="/achievements" element={

@@ -9,8 +9,8 @@ export const DataProvider = function (props) {
     const { user } = useContext(AuthContext)
     const [loading, setLoading] = useState(true)
     const [chars, setChars] = useState([])
-    const [char, setChar] = useState({})
-    const [charInfo, setCharInfo] = useState({})
+    const [selectedChar, setSelectedChar] = useState({})
+    const [selectedCharInfo, setSelectedCharInfo] = useState({})
     const [ownedAchievements, setOwnedAchievements] = useState([])
     const [ownedMounts, setOwnedMounts] = useState([])
     const [ownedMinions, setOwnedMinions] = useState([])
@@ -29,6 +29,23 @@ export const DataProvider = function (props) {
         return str.toLowerCase().split(' ').map(function (word) {
             return (word.charAt(0).toUpperCase() + word.slice(1));
         }).join(' ');
+    }
+
+    const checkXIVAPI = async function(LID) {
+        try {
+            const checkResponse = await fetch(`https://xivapi.com/character/${LID}`)
+            const xivapiData = await checkResponse.json()
+            return {
+                id: LID,
+                name: xivapiData.Character.Name,
+                server: xivapiData.Character.Server,
+                avatar: xivapiData.Character.Avatar
+            }
+
+        } catch (err) {
+            console.log('ERROR! ERROR! ERROR!')
+            console.log(err)
+        }
     }
 
     const checkFFXIVC = async function(LID) {
@@ -53,11 +70,14 @@ export const DataProvider = function (props) {
     }
 
     const getCharInfo = async function(LID) {
-        if (user.loggedIn == true) {
-            try{
-                const charResponse = await fetch(`https://ffxivcollect.com/api/characters/${LID}?latest=true&ids=true/`)
+        try{
+            const charResponse = await fetch(`https://ffxivcollect.com/api/characters/${LID}?latest=true&ids=true/`)
+            if (charResponse.status === 403) {
+                return 'private'
+
+            } else {
                 const charData = await charResponse.json()
-                
+            
                 console.log('CHAR loaded (1 call to ffxivc)')
                 return {
                     id: charData.id,
@@ -73,14 +93,15 @@ export const DataProvider = function (props) {
                     rankings: charData.rankings,
                     relics: charData.relics
                 }
-            } catch (err) {
-                console.log('ERROR! ERROR! ERROR!')
-                console.log(err)
             }
+            
+        } catch (err) {
+            console.log('ERROR! ERROR! ERROR!')
+            console.log(err)
         }
     }
 
-    const getCharAvatar = async function(LID) {
+    const xivapiNSA = async function(LID) {
         try{
             const charResponse = await fetch(`https://xivapi.com/character/${LID}`)
             const charData = await charResponse.json()
@@ -93,7 +114,7 @@ export const DataProvider = function (props) {
     }
     
     const getChars = async function() {
-        if (user.loggedIn == true) {
+        if (user.loggedIn === true) {
             const q = query(collection(db, 'users', `${user.uid}`, 'characters'))
             // const q = query(collection(db, 'users', `${user.uid}`, 'characters'), orderBy('selected', 'desc'))
             const querySnap = await getDocs(q)
@@ -101,14 +122,14 @@ export const DataProvider = function (props) {
 
             querySnap.forEach(async (doc) => {
                 try{
-                    const avatar = await getCharAvatar(doc.data().lodestoneId)
+                    const avatar = await xivapiNSA(doc.data().lodestoneId)
                     if (doc.data().selected) {
                         const charDoc = {
                             id: doc.id,
                             avatarUrl: avatar,
                             ...doc.data()
                         }
-                        setChar(charDoc)
+                        setSelectedChar(charDoc)
                     } else {
                         charsDocs.push({
                             id: doc.id,
@@ -131,20 +152,17 @@ export const DataProvider = function (props) {
     }
 
     const loadCharInfo = async function() {
-        
-        if (user.loggedIn == true) {
-            setLoading(true)
-            const charInfo = await getCharInfo(char.lodestoneId)
-            setCharInfo(charInfo)
-            setOwnedAchievements(charInfo.achievements.ids)
-            setOwnedMounts(charInfo.mounts.ids)
-            setOwnedMinions(charInfo.minions.ids)
-            setLoading(false)
-        }
+        setLoading(true)
+        const charInfo = await getCharInfo(selectedChar.lodestoneId)
+        setSelectedCharInfo(charInfo)
+        setOwnedAchievements(charInfo.achievements.ids)
+        setOwnedMounts(charInfo.mounts.ids)
+        setOwnedMinions(charInfo.minions.ids)
+        setLoading(false)
     }
 
     async function selectChar(id) {
-        const charRef = doc(db, 'users', `${user.uid}`, 'characters', `${char.id}`)
+        const charRef = doc(db, 'users', `${user.uid}`, 'characters', `${selectedChar.id}`)
 
         await updateDoc(charRef, {
             selected: false
@@ -183,7 +201,7 @@ export const DataProvider = function (props) {
             server: server
         }
         
-        if (chars.length == 0) {
+        if (chars.length === 0) {
             newChar.selected = true
         }
 
@@ -241,36 +259,39 @@ export const DataProvider = function (props) {
     }
 
     useEffect(() => {
-        if (user.loggedIn == true) {
+        if (user.loggedIn === true) {
             getChars()
         } else {
             setChars([])
-            setChar({})
+            setSelectedChar({})
         }
 
     }, [user])
 
     useEffect(() => {
-        if (user.loggedIn == true) {
+        if (user.loggedIn === true) {
             loadCharInfo()
         }
         
-    }, [char])
+    }, [selectedChar])
 
 
     const value = {
         loading,
+        setLoading,
         chars,
         setChars,
-        char,
-        setChar,
-        charInfo,
+        selectedChar,
+        setSelectedChar,
+        selectedCharInfo,
         ownedAchievements,
         ownedMounts,
         ownedMinions,
         toTitleCase,
         getChars,
+        checkXIVAPI,
         checkFFXIVC,
+        getCharInfo,
         loadCharInfo,
         selectChar,
         hideChar,

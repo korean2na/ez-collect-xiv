@@ -1,17 +1,17 @@
 import { Link } from 'react-router-dom'
 import { useContext } from "react"
+import { AuthContext } from '../contexts/AuthProvider';
 import { DataContext } from "../contexts/DataProvider"
 import CreateAlert from './CreateAlert';
-import { AuthContext } from '../contexts/AuthProvider';
 
 export default function SingleResult(props) {
     const { user } = useContext(AuthContext)
-    const { char, chars, selectChar, getChars, loadCharInfo, hideChar, unhideChar, checkFFXIVC, addChar, removeChar } = useContext(DataContext)
+    const { selectedChar, chars, selectChar, getChars, loadCharInfo, hideChar, unhideChar, checkFFXIVC, addChar, removeChar } = useContext(DataContext)
 
     const filtered = chars.filter(n => n.lodestoneId == props.result['ID'])
 
     function addedCheck(LID) {
-        if (char.lodestoneId == LID) {
+        if (selectedChar.lodestoneId == LID) {
             return 'SELECTED'
         } else if (filtered.length > 0) {
             if (filtered[0].hidden == true) {
@@ -94,7 +94,7 @@ export default function SingleResult(props) {
                         <>
                             <div className="row justify-content-center">
                                 <div className="col-10">
-                                    <Link to={ '/selected-char' } target="_blank" className="col-12 btn btn-warning">View Profile</Link>
+                                    <Link to={ `/char-profile/${props.result['ID']}` } target="_blank" className="col-12 btn btn-warning">View Profile</Link>
                                 </div>
                             </div>
                         </> :

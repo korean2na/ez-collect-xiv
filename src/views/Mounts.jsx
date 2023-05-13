@@ -3,11 +3,11 @@ import { DataContext } from "../contexts/DataProvider";
 import SingleMount from "../components/SingleMount";
 
 export default function Mounts() {
-    const { charInfo, getChars, getMounts, mountsList } = useContext(DataContext)
+    const { selectedCharInfo, getChars, getMounts, mountsList } = useContext(DataContext)
 
     useEffect(() => {
         window.scrollTo(0, 0)
-        if (charInfo == null) {
+        if (selectedCharInfo == null) {
             getChars()
         }
 

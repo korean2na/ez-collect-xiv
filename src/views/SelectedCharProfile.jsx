@@ -6,7 +6,7 @@ import { AuthContext } from "../contexts/AuthProvider";
 
 export default function SelectedCharProfile() {
 	const { user } = useContext(AuthContext)
-	const { loading, char, chars, charInfo, getChars, loadCharInfo } = useContext(DataContext)
+	const { loading, selectedChar, chars, selectedCharInfo, getChars, loadCharInfo } = useContext(DataContext)
 
 	function percent(count, total) {
 		const result = count/total * 100
@@ -14,7 +14,7 @@ export default function SelectedCharProfile() {
 	}
 
 	useEffect(() => {
-		if (charInfo == null) {
+		if (selectedCharInfo == null) {
 			getChars()
 		}
 		
@@ -29,7 +29,7 @@ export default function SelectedCharProfile() {
 				<>
 				<p>Not logged in</p>
 				</> :
-				(charInfo.name == null) ?
+				(selectedCharInfo.name == null) ?
 				<>
                 <div className="row justify-content-center">
                     <div id="liveAlertBar"></div>
@@ -61,14 +61,14 @@ export default function SelectedCharProfile() {
 							<hr className="mx-2 mt-0"/>
 							<div className="row align-items-center">
 								<div className="col-8 text-start">
-									<h4 className="mb-0 ms-5 ps-3"><img id='avatar' src={char.avatarUrl} alt='' height='75' width='75' className='me-4'/> <strong>{char.charName}</strong></h4>
+									<h4 className="mb-0 ms-5 ps-3"><img id='avatar' src={selectedChar.avatarUrl} alt='' height='75' width='75' className='me-4'/> <strong>{selectedChar.charName}</strong></h4>
 								</div>
 								<div className="col-3 text-end ps-0 pe-0">
 									<p className="text-black text-opacity-50 mb-0">Lodestone ID:</p>
-									<p className="mb-0">{char.lodestoneId}</p>
+									<p className="mb-0">{selectedChar.lodestoneId}</p>
 									<br />
 									<p className="text-black text-opacity-50 mb-0">Server:</p>
-									<p className="mb-0">{char.server}</p>
+									<p className="mb-0">{selectedChar.server}</p>
 								</div>
 							</div>
 							<hr className="mx-2 pb-2"/>
@@ -76,21 +76,21 @@ export default function SelectedCharProfile() {
 								<div className="col-4 px-0">
 									<div className="row mb-5">
 										<div id="portrait-box" className='ms-4 px-0 shadow'>
-											<a href={charInfo.portrait} target="_blank" rel="noopener noreferrer"><img id="portrait" src={charInfo.portrait} alt='character portrait'/></a>
+											<a href={selectedCharInfo.portrait} target="_blank" rel="noopener noreferrer"><img id="portrait" src={selectedCharInfo.portrait} alt='character portrait'/></a>
 										</div>
 									</div>
 									<div className="row justify-content-center pt-5">
 										{
-											(charInfo.achievements.public == true) ?
+											(selectedCharInfo.achievements.public == true) ?
 												<>
 													<Link id="achievements-card" to="/achievements" className="col-10 card py-3 me-4 shadow rounded">
 														<h4 className="mb-0">Achievements</h4>
 														<hr className="mx-2"/>
-														<p>{charInfo.achievements.count} of {charInfo.achievements.total} completed &nbsp; ({percent(charInfo.achievements.count, charInfo.achievements.total)}%)</p>
-														<p>{charInfo.achievements.points} of {charInfo.achievements.points_total} points earned &nbsp; ({percent(charInfo.achievements.points, charInfo.achievements.points_total)}%)</p>
-														<p>{charInfo.server} Rank: #{charInfo.rankings.achievements.server}</p>
-														<p>{charInfo.data_center} Rank: #{charInfo.rankings.achievements.data_center}</p>
-														<p>Global Rank: #{charInfo.rankings.achievements.global}</p>
+														<p>{selectedCharInfo.achievements.count} of {selectedCharInfo.achievements.total} completed &nbsp; ({percent(selectedCharInfo.achievements.count, selectedCharInfo.achievements.total)}%)</p>
+														<p>{selectedCharInfo.achievements.points} of {selectedCharInfo.achievements.points_total} points earned &nbsp; ({percent(selectedCharInfo.achievements.points, selectedCharInfo.achievements.points_total)}%)</p>
+														<p>{selectedCharInfo.server} Rank: #{selectedCharInfo.rankings.achievements.server}</p>
+														<p>{selectedCharInfo.data_center} Rank: #{selectedCharInfo.rankings.achievements.data_center}</p>
+														<p>Global Rank: #{selectedCharInfo.rankings.achievements.global}</p>
 													</Link>
 												</> :
 												<>
@@ -110,13 +110,13 @@ export default function SelectedCharProfile() {
 										<div className="col">
 											<h4 className="mb-0">Mounts</h4>
 											<hr className="mx-2"/>
-											<p>{charInfo.mounts.count} of {charInfo.mounts.total} collected &nbsp; ({percent(charInfo.mounts.count, charInfo.mounts.total)}%)</p>
+											<p>{selectedCharInfo.mounts.count} of {selectedCharInfo.mounts.total} collected &nbsp; ({percent(selectedCharInfo.mounts.count, selectedCharInfo.mounts.total)}%)</p>
 											{
-												(charInfo.rankings.mounts.server != null) ?
+												(selectedCharInfo.rankings.mounts.server != null) ?
 													<>
-														<p>{charInfo.server} Rank: #{charInfo.rankings.mounts.server}</p>
-														<p>{charInfo.data_center} Rank: #{charInfo.rankings.mounts.data_center}</p>
-														<p>Global Rank: #{charInfo.rankings.mounts.global}</p>
+														<p>{selectedCharInfo.server} Rank: #{selectedCharInfo.rankings.mounts.server}</p>
+														<p>{selectedCharInfo.data_center} Rank: #{selectedCharInfo.rankings.mounts.data_center}</p>
+														<p>Global Rank: #{selectedCharInfo.rankings.mounts.global}</p>
 													</> :
 													<></>
 											}
@@ -127,13 +127,13 @@ export default function SelectedCharProfile() {
 										<div className="col">
 											<h4 className="mb-0">Minions</h4>
 											<hr className="mx-2"/>
-											<p>{charInfo.minions.count} of {charInfo.minions.total} collected &nbsp; ({percent(charInfo.minions.count, charInfo.minions.total)}%)</p>
+											<p>{selectedCharInfo.minions.count} of {selectedCharInfo.minions.total} collected &nbsp; ({percent(selectedCharInfo.minions.count, selectedCharInfo.minions.total)}%)</p>
 											{
-												(charInfo.rankings.minions.server != null) ?
+												(selectedCharInfo.rankings.minions.server != null) ?
 													<>
-														<p>{charInfo.server} Rank: #{charInfo.rankings.minions.server}</p>
-														<p>{charInfo.data_center} Rank: #{charInfo.rankings.minions.data_center}</p>
-														<p>Global Rank: #{charInfo.rankings.minions.global}</p>
+														<p>{selectedCharInfo.server} Rank: #{selectedCharInfo.rankings.minions.server}</p>
+														<p>{selectedCharInfo.data_center} Rank: #{selectedCharInfo.rankings.minions.data_center}</p>
+														<p>Global Rank: #{selectedCharInfo.rankings.minions.global}</p>
 													</> :
 													<></>
 											}	
@@ -146,21 +146,21 @@ export default function SelectedCharProfile() {
 												<hr className="px-2"/>
 											</div>
 											{
-												(charInfo.achievements.public == true) ?
+												(selectedCharInfo.achievements.public == true) ?
 												<>
 													<div className="row mb-3">
 														<a id="relic-card" href="https://ffxivcollect.com/relics/weapons" target="_blank" className="card p-3 shadow rounded">
-															<p className="mb-0">Relic Weapons: &nbsp; {charInfo.relics.weapons.count} of {charInfo.relics.weapons.total} &nbsp; ({percent(charInfo.relics.weapons.count, charInfo.relics.weapons.total)}%)</p>
+															<p className="mb-0">Relic Weapons: &nbsp; {selectedCharInfo.relics.weapons.count} of {selectedCharInfo.relics.weapons.total} &nbsp; ({percent(selectedCharInfo.relics.weapons.count, selectedCharInfo.relics.weapons.total)}%)</p>
 														</a>
 													</div>
 													<div className="row mb-3">
 														<a id="relic-card" href="https://ffxivcollect.com/relics/armor" target="_blank" className="card p-3 shadow rounded">
-															<p className="mb-0">Relic Armor Pieces: &nbsp; {charInfo.relics.armor.count} of {charInfo.relics.armor.total} &nbsp; ({percent(charInfo.relics.armor.count, charInfo.relics.armor.total)}%)</p>
+															<p className="mb-0">Relic Armor Pieces: &nbsp; {selectedCharInfo.relics.armor.count} of {selectedCharInfo.relics.armor.total} &nbsp; ({percent(selectedCharInfo.relics.armor.count, selectedCharInfo.relics.armor.total)}%)</p>
 														</a>
 													</div>
 													<div className="row justify-content-center mb-3">
 														<a id="relic-card" href="https://ffxivcollect.com/relics/tools" target="_blank" className="card p-3 shadow rounded">
-															<p className="mb-0">Relic Tools: &nbsp; {charInfo.relics.tools.count} of {charInfo.relics.tools.total} &nbsp; ({percent(charInfo.relics.tools.count, charInfo.relics.tools.total)}%)</p>
+															<p className="mb-0">Relic Tools: &nbsp; {selectedCharInfo.relics.tools.count} of {selectedCharInfo.relics.tools.total} &nbsp; ({percent(selectedCharInfo.relics.tools.count, selectedCharInfo.relics.tools.total)}%)</p>
 														</a>
 													</div>
 												</> :

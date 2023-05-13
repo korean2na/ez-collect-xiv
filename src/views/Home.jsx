@@ -2,13 +2,12 @@ import { useState, useContext, useEffect } from "react";
 import { Link } from 'react-router-dom'
 import { AuthContext } from "../contexts/AuthProvider";
 import { DataContext } from "../contexts/DataProvider";
-import SelectedChar from "../components/SelectedChar";
+import SelectedCharCard from "../components/SelectedCharCard";
 import SingleChar from "../components/SingleChar";
 
 export default function Home() {
     const { user } = useContext(AuthContext)
-    const { loading, chars, char, getChars, loadCharInfo, addChar, hideChar } = useContext(DataContext)
-    const [loaded, setLoaded] = useState('FALSE')
+    const { loading, chars, selectedChar, getChars, loadCharInfo, addChar, hideChar } = useContext(DataContext)
 
     return (
         <div id="Home">
@@ -18,7 +17,7 @@ export default function Home() {
             {
                 (loading == true) ?
                 <p className='text-center text-white'>Loading...</p> :
-                (loading == false && char.charName == null) ?
+                (loading == false && selectedChar.charName == null) ?
                 <>
                     <div className="row justify-content-center">
                         <div id="liveAlertBar"></div>
@@ -35,7 +34,7 @@ export default function Home() {
                     { chars.map(singleChar => <SingleChar key={singleChar.id} singleChar={singleChar} showHidden='yes'/>) }
                 </> :
                 <>
-                    {<SelectedChar />}
+                    {<SelectedCharCard />}
                     { chars.map(singleChar => <SingleChar key={singleChar.id} singleChar={singleChar} showHidden='no'/>) }
                 </>
             }
